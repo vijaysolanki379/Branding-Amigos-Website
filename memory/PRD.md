@@ -45,7 +45,11 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
 - Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home); header is solid dark on all subpages so the transparent logo stays visible.
 
-## Implemented (2026-09, batch 5)
+## Implemented (2026-09, batch 6)
+- 9 service landing pages at /services/:slug (src/lib/services.ts data + pages/ServicePage.tsx): per-service meta title/description, Service JSON-LD, included/outcomes panels, WhatsApp CTA, related services, consultation CTA. Homepage Learn More links and footer service links point to them; all 9 in sitemap.xml.
+- Hero copy refreshed for the full-service range: "Your Brand, Growing Everywhere Your Customers Are" + sub covering SEO, social, ads, content, AI automation; trust strip now "SEO • Social • Ads • Content • Automation".
+- Floating WhatsApp chat button on every page (wa.me/917984568245, prefilled message).
+- GTM-T3KZM7J installed via the site-codes settings (head script + body noscript) — verified dataLayer initialises and the noscript iframe renders.
 - Services replaced with the real 9-service lineup (Social Media Marketing, AI SEO, Meta Ads, Google Ads, Web Design, Content Marketing, AI Influencer Marketing, WhatsApp Business Automation, AI Agents & Automation) — updated in services grid, contact form checkboxes, footer list, FAQ answer 2 + FAQPage JSON-LD. Learn More dialogs carry per-service deliverables.
 - Google Search Console verification token live in index.html head.
 - Site codes manager: settings collection, GET /api/settings (public) + PUT /api/settings (admin key). /admin/codes page with head/body code textareas (GTM script, noscript, schema JSON-LD, pixels). App.tsx useSiteCodes injects saved codes on every page (scripts re-created so they execute; meta/link/style handled from parsed head). Admin navigation is now shared tabs (Enquiries / Blog manager / Site codes) across all three admin pages.

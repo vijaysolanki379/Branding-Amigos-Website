@@ -95,7 +95,7 @@ export function Footer() {
               {FOOTER_SERVICES.map((service) => (
                 <li key={service}>
                   <a
-                    href="#services"
+                    href={`/services/${service.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`}
                     data-testid={`footer-service-${service.toLowerCase().replace(/\s+/g, "-")}`}
                     className="text-sm text-[#C6CCDF] transition-colors hover:text-white"
                   >

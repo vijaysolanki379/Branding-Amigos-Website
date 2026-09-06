@@ -10,7 +10,25 @@ logger = logging.getLogger("branding-amigos")
 BASE_URL = "https://brandingamigos.com"
 OUTPUT = Path(__file__).resolve().parents[2] / "frontend" / "public" / "sitemap.xml"
 
-STATIC_ROUTES = [("/", "1.0"), ("/insights", "0.8"), ("/privacy", "0.3"), ("/terms", "0.3")]
+SERVICE_SLUGS = [
+    "social-media-marketing",
+    "ai-seo",
+    "meta-ads",
+    "google-ads",
+    "web-design",
+    "content-marketing",
+    "ai-influencer-marketing",
+    "whatsapp-automation",
+    "ai-agents-automation",
+]
+
+STATIC_ROUTES = [
+    ("/", "1.0"),
+    ("/insights", "0.8"),
+    ("/privacy", "0.3"),
+    ("/terms", "0.3"),
+    *[(f"/services/{s}", "0.8") for s in SERVICE_SLUGS],
+]
 
 
 async def regenerate_sitemap() -> None:

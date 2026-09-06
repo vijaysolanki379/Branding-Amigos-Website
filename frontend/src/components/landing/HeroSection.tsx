@@ -42,10 +42,10 @@ export function HeroSection() {
           </motion.p>
 
           <h1 className="mt-7 font-heading text-[2.75rem] leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[4.4rem]">
-            <MaskedLine delay={0.25}>Turn Search</MaskedLine>
-            <MaskedLine delay={0.37}>Visibility Into</MaskedLine>
+            <MaskedLine delay={0.25}>Your Brand, Growing</MaskedLine>
+            <MaskedLine delay={0.37}>Everywhere Your</MaskedLine>
             <MaskedLine delay={0.49}>
-              <em className="italic text-[#FF5A36]">Business Growth</em>
+              <em className="italic text-[#FF5A36]">Customers Are</em>
             </MaskedLine>
           </h1>
 
@@ -55,8 +55,8 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.75, ease: EASE }}
             className="mt-7 max-w-xl text-base leading-relaxed text-[#A7AEC9] sm:text-lg"
           >
-            Branding Amigos combines SEO, content, and digital strategy to help businesses become more visible,
-            attract qualified customers, and grow online.
+            Branding Amigos combines SEO, social media, paid ads, content, and AI-powered automation to help
+            businesses become more visible, attract qualified customers, and grow online.
           </motion.p>
 
           <motion.div
@@ -88,8 +88,8 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 1.1 }}
             className="mt-10 font-mono text-[11px] uppercase tracking-[0.25em] text-[#6B7394]"
           >
-            Strategy <span className="text-[#FF5A36]">•</span> SEO <span className="text-[#FF5A36]">•</span> Content{" "}
-            <span className="text-[#FF5A36]">•</span> Authority <span className="text-[#FF5A36]">•</span> Growth
+            SEO <span className="text-[#FF5A36]">•</span> Social <span className="text-[#FF5A36]">•</span> Ads{" "}
+            <span className="text-[#FF5A36]">•</span> Content <span className="text-[#FF5A36]">•</span> Automation
           </motion.p>
         </div>
 

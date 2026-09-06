@@ -7,8 +7,10 @@ import BlogManager from "@/pages/BlogManager";
 import CodeManager from "@/pages/CodeManager";
 import Insights from "@/pages/Insights";
 import InsightPost from "@/pages/InsightPost";
+import ServicePage from "@/pages/ServicePage";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
+import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 
 interface SiteSettings {
   head_code: string;
@@ -63,15 +65,19 @@ function useSiteCodes() {
 export default function App() {
   useSiteCodes();
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/admin/blog" element={<BlogManager />} />
-      <Route path="/admin/codes" element={<CodeManager />} />
-      <Route path="/insights" element={<Insights />} />
-      <Route path="/insights/:slug" element={<InsightPost />} />
-      <Route path="/privacy" element={<Privacy />} />
-      <Route path="/terms" element={<Terms />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/blog" element={<BlogManager />} />
+        <Route path="/admin/codes" element={<CodeManager />} />
+        <Route path="/insights" element={<Insights />} />
+        <Route path="/insights/:slug" element={<InsightPost />} />
+        <Route path="/services/:slug" element={<ServicePage />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+      </Routes>
+      <WhatsAppButton />
+    </>
   );
 }
