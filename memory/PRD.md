@@ -43,7 +43,13 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Email alerts: Resend notification path implemented per playbook (SENDER_EMAIL=onboarding@resend.dev, NOTIFY_EMAIL in .env, reply_to = enquirer). Pending platform key.
 - Legal pages: /privacy and /terms with real business details and an explicit "no guaranteed rankings" clause; footer links now real routes.
 - Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
-- Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home).
+- Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home); header is solid dark on all subpages so the transparent logo stays visible.
+
+## Implemented (2026-09, batch 2)
+- Logo background made transparent (background-estimation alpha matte, artwork untouched): /public/branding-amigos-logo-transparent.png + branding-amigos-logo-mark.png (used in header/footer/mobile). Script: scripts/make_logo_transparent.py.
+- Article covers: `cover` field on posts, generated abstract brand covers on both seeded articles, shown on homepage cards, /insights cards, and article hero; per-article og:image + BlogPosting image set for social shares; optional cover URL field in the admin publish form.
+- Enquiry status tracking: PATCH /api/contact/{id} (admin-key, status: new/contacted/closed) + status badge and "Mark as" buttons on each enquiry in /admin.
+- SEO crawl: backend/lib/sitemap.py generates /frontend/public/sitemap.xml (regenerated on every publish and seed run); robots.txt in public/ (note: Cloudflare ingress prepends its own managed content signals; our rules follow).
 
 ## Backlog
 - P0: Activate Resend notifications (add RESEND_API_KEY).

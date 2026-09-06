@@ -51,6 +51,9 @@ export default function InsightPost() {
     const meta = document.querySelector('meta[name="description"]');
     const prevDesc = meta?.getAttribute("content") ?? null;
     meta?.setAttribute("content", post.excerpt);
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const prevOg = ogImage?.getAttribute("content") ?? null;
+    if (post.cover && ogImage) ogImage.setAttribute("content", post.cover);
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.textContent = JSON.stringify({
@@ -59,6 +62,7 @@ export default function InsightPost() {
       headline: post.title,
       description: post.excerpt,
       datePublished: post.published_at,
+      ...(post.cover ? { image: post.cover } : {}),
       author: { "@type": "Organization", name: post.author },
       publisher: { "@type": "Organization", name: "Branding Amigos", url: "https://brandingamigos.com/" },
     });
@@ -66,6 +70,7 @@ export default function InsightPost() {
     return () => {
       document.title = prevTitle;
       if (meta && prevDesc) meta.setAttribute("content", prevDesc);
+      if (ogImage && prevOg) ogImage.setAttribute("content", prevOg);
       script.remove();
     };
   }, [post]);
@@ -98,6 +103,17 @@ export default function InsightPost() {
             <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.2em] text-[#94A3B8]">
               {post.author} <span className="text-[#FF5A36]">•</span> {formatPostDate(post.published_at)}
             </p>
+            {post.cover && (
+              <img
+                src={post.cover}
+                alt={`Abstract cover artwork for the article: ${post.title}`}
+                width="1536"
+                height="1024"
+                loading="lazy"
+                data-testid="post-cover"
+                className="mt-10 w-full rounded-2xl object-cover"
+              />
+            )}
             <div data-testid="post-content" className="mt-4">{renderContent(post.content)}</div>
 
             <div className="mt-16 rounded-2xl bg-[#05061A] p-8 sm:p-10">

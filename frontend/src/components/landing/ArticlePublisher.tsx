@@ -8,7 +8,7 @@ const FIELD =
 const LABEL = "mb-1.5 block font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#9AA2BC]";
 
 export function ArticlePublisher({ adminKey }: { adminKey: string }) {
-  const [form, setForm] = useState({ title: "", excerpt: "", tags: "", content: "" });
+  const [form, setForm] = useState({ title: "", excerpt: "", tags: "", cover: "", content: "" });
   const [publishing, setPublishing] = useState(false);
   const [published, setPublished] = useState<{ slug: string; title: string } | null>(null);
   const [error, setError] = useState("");
@@ -26,13 +26,14 @@ export function ArticlePublisher({ adminKey }: { adminKey: string }) {
           title: form.title,
           excerpt: form.excerpt,
           content: form.content,
+          cover: form.cover || null,
           tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
         }),
       });
       if (!res.ok) throw new Error(String(res.status));
       const post = (await res.json()) as { slug: string; title: string };
       setPublished(post);
-      setForm({ title: "", excerpt: "", tags: "", content: "" });
+      setForm({ title: "", excerpt: "", tags: "", cover: "", content: "" });
     } catch {
       setError("Could not publish. Check your admin key and that all fields are filled in.");
     } finally {
@@ -53,6 +54,10 @@ export function ArticlePublisher({ adminKey }: { adminKey: string }) {
       <div>
         <label htmlFor="post-tags" className={LABEL}>Tags (comma separated)</label>
         <input id="post-tags" data-testid="post-tags-input" value={form.tags} onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))} placeholder="SEO Strategy, Local SEO" className={FIELD} />
+      </div>
+      <div>
+        <label htmlFor="post-cover" className={LABEL}>Cover image URL (optional)</label>
+        <input id="post-cover" data-testid="post-cover-input" value={form.cover} onChange={(e) => setForm((f) => ({ ...f, cover: e.target.value }))} placeholder="https://… abstract cover artwork for this article" className={FIELD} />
       </div>
       <div>
         <label htmlFor="post-content" className={LABEL}>Content</label>

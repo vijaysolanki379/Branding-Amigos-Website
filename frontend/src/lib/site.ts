@@ -36,6 +36,7 @@ export interface PostSummary {
   excerpt: string;
   tags: string[];
   author: string;
+  cover: string | null;
   published_at: string;
 }
 

@@ -84,15 +84,35 @@ def slugify(title: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
 
 
+COVERS = {
+    "how-long-does-seo-take-an-honest-answer-for-local-businesses": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/d20b54a850a40e9dbcf9ce66c50ed514f28d2ddb381ef47130e37e890cf97ee6.jpeg",
+    "technical-seo-basics-7-checks-every-business-website-should-pass": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/13bc270e847a100099f2976cd280c9d1658af1749c26a49189049e2e9cb4f038.jpeg",
+}
+
+
 async def main() -> None:
     for post in POSTS:
         slug = slugify(post["title"])
-        if await db.posts.find_one({"slug": slug}):
-            print(f"exists: {slug}")
+        cover = COVERS.get(slug)
+        existing = await db.posts.find_one({"slug": slug})
+        if existing:
+            if cover and not existing.get("cover"):
+                await db.posts.update_one({"slug": slug}, {"$set": {"cover": cover}})
+                print(f"cover set: {slug}")
+            else:
+                print(f"exists: {slug}")
             continue
-        doc = {"id": str(uuid.uuid4()), "slug": slug, "published_at": datetime.now(timezone.utc), **post}
+        doc = {
+            "id": str(uuid.uuid4()),
+            "slug": slug,
+            "cover": cover,
+            "published_at": datetime.now(timezone.utc),
+            **post,
+        }
         await db.posts.insert_one(doc)
         print(f"created: {slug}")
+    from lib.sitemap import regenerate_sitemap
+    await regenerate_sitemap()
     await ensure_indexes()
 
 

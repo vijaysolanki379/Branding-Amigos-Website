@@ -46,8 +46,18 @@ export function InsightsPreview() {
               <a
                 href={`/insights/${post.slug}`}
                 data-testid={`insight-card-${post.slug}`}
-                className="group flex h-full flex-col rounded-2xl border border-[#E2E8F0] bg-white p-8 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1.5 hover:border-[#3535D6]/40 hover:shadow-[0_24px_48px_-24px_rgba(16,19,74,0.25)]"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-8 transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1.5 hover:border-[#3535D6]/40 hover:shadow-[0_24px_48px_-24px_rgba(16,19,74,0.25)]"
               >
+                {post.cover && (
+                  <img
+                    src={post.cover}
+                    alt={`Abstract cover artwork for: ${post.title}`}
+                    width="1536"
+                    height="1024"
+                    loading="lazy"
+                    className="-mx-8 -mt-8 mb-6 h-44 w-[calc(100%+4rem)] max-w-none object-cover"
+                  />
+                )}
                 <div className="flex flex-wrap gap-2">
                   {post.tags.slice(0, 2).map((tag) => (
                     <span key={tag} className="rounded-full bg-[#EAEBEE] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-[#475569]">

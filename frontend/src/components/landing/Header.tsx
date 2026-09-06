@@ -28,12 +28,12 @@ export function Header() {
     <header
       data-testid="site-header"
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        scrolled ? "border-b border-white/10 bg-[#05061A]/85 backdrop-blur-xl" : "border-b border-transparent bg-transparent"
+        scrolled || pathname !== "/" ? "border-b border-white/10 bg-[#05061A]/85 backdrop-blur-xl" : "border-b border-transparent bg-transparent"
       }`}
     >
       <div
         className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-[padding] duration-300 sm:px-6 lg:px-8 ${
-          scrolled ? "py-3" : "py-5"
+          scrolled || pathname !== "/" ? "py-3" : "py-5"
         }`}
       >
         <a href={hrefFor("#home")} data-testid="header-logo" aria-label="Branding Amigos — home" className="shrink-0">
@@ -42,7 +42,7 @@ export function Header() {
             alt="Branding Amigos — SEO & Digital Marketing Agency"
             width="166"
             height="75"
-            className={`w-auto transition-[height] duration-300 ${scrolled ? "h-9" : "h-11"}`}
+            className={`w-auto transition-[height] duration-300 ${scrolled || pathname !== "/" ? "h-9" : "h-11"}`}
           />
         </a>
 

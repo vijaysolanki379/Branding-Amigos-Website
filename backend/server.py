@@ -133,6 +133,7 @@ class PostCreate(BaseModel):
     content: str = Field(min_length=50, max_length=50000)
     tags: List[str] = Field(default_factory=list, max_length=6)
     author: str = Field(default="Branding Amigos", max_length=120)
+    cover: Optional[str] = Field(default=None, max_length=600)
 
 
 class Post(PostCreate):
@@ -165,7 +166,35 @@ async def create_post(payload: PostCreate, x_admin_key: Optional[str] = Header(d
     if await db.posts.find_one({"slug": post.slug}):
         post.slug = f"{post.slug}-{uuid.uuid4().hex[:6]}"
     await db.posts.insert_one(post.model_dump())
+    try:
+        from lib.sitemap import regenerate_sitemap
+        await regenerate_sitemap()
+    except Exception:
+        logger.exception("Failed to regenerate sitemap")
     return post
+
+
+class InquiryStatusUpdate(BaseModel):
+    status: str = Field(pattern="^(new|contacted|closed)$")
+
+
+@api_router.patch("/contact/{inquiry_id}", response_model=ContactInquiry)
+async def update_inquiry_status(
+    inquiry_id: str,
+    payload: InquiryStatusUpdate,
+    x_admin_key: Optional[str] = Header(default=None),
+):
+    _check_admin(x_admin_key)
+    doc = await db.inquiries.find_one_and_update(
+        {"id": inquiry_id},
+        {"$set": {"status": payload.status}},
+        projection={"_id": 0},
+        return_document=True,
+    )
+    if not doc:
+        raise HTTPException(status_code=404, detail="Enquiry not found")
+    _normalize_ts(doc, "created_at")
+    return ContactInquiry(**doc)
 
 
 app.include_router(api_router)

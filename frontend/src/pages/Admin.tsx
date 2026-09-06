@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Inbox, Loader2, PenLine } from "lucide-react";
 import type { ContactInquiry } from "@/lib/site";
 import { ArticlePublisher } from "@/components/landing/ArticlePublisher";
+import { EnquiryCard } from "@/components/landing/EnquiryCard";
 
 export default function Admin() {
   const [key, setKey] = useState(() => sessionStorage.getItem("ba_admin") ?? "");
@@ -86,22 +87,14 @@ export default function Admin() {
               <div data-testid="admin-results" className="mt-10 space-y-4">
                 {items.length === 0 && <p className="text-sm text-[#8B93B8]">No enquiries yet.</p>}
                 {items.map((item) => (
-                  <article key={item.id} className="rounded-xl border border-white/10 bg-[#0C1030] p-6">
-                    <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <h2 className="text-lg font-semibold">{item.name}{item.business ? ` — ${item.business}` : ""}</h2>
-                      <time className="font-mono text-xs text-[#8B93B8]">{new Date(item.created_at).toLocaleString()}</time>
-                    </div>
-                    <p className="mt-1 text-sm text-[#8B93B8]">{item.email}{item.phone ? ` · ${item.phone}` : ""}{item.website ? ` · ${item.website}` : ""}</p>
-                    {item.services.length > 0 && (
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {item.services.map((s) => (
-                          <span key={s} className="rounded-full bg-[#10134A] px-3 py-1 text-xs text-[#C6CCDF]">{s}</span>
-                        ))}
-                      </div>
-                    )}
-                    {item.budget && <p className="mt-3 text-xs text-[#8B93B8]">Budget: {item.budget}</p>}
-                    <p className="mt-3 text-sm leading-relaxed text-[#C6CCDF]">{item.goals}</p>
-                  </article>
+                  <EnquiryCard
+                    key={item.id}
+                    item={item}
+                    adminKey={key}
+                    onUpdated={(updated: ContactInquiry) =>
+                      setItems((cur) => (cur ? cur.map((c) => (c.id === updated.id ? updated : c)) : cur))
+                    }
+                  />
                 ))}
               </div>
             )}
