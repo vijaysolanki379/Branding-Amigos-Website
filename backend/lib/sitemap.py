@@ -24,6 +24,8 @@ SERVICE_SLUGS = [
 
 STATIC_ROUTES = [
     ("/", "1.0"),
+    ("/about", "0.7"),
+    ("/contact", "0.9"),
     ("/insights", "0.8"),
     ("/privacy", "0.3"),
     ("/terms", "0.3"),

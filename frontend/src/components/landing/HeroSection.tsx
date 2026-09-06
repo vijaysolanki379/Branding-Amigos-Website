@@ -70,7 +70,7 @@ export function HeroSection() {
               data-testid="hero-cta-primary"
               className="group inline-flex items-center justify-center gap-2 rounded-md bg-[#FF5A36] px-7 py-3.5 text-sm font-semibold text-white transition-[background-color,transform] duration-200 hover:bg-[#FF3E14] active:scale-[0.98]"
             >
-              Get a Free SEO Consultation
+              Get a Free Consultation
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </a>
             <a

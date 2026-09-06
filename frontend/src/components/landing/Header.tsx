@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/site";
 import { SERVICES_DETAIL } from "@/lib/services";
 import { EASE } from "./Reveal";
+
+const testIdFor = (label: string) => label.toLowerCase().replace(/\s+/g, "-");
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -12,7 +14,7 @@ export function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const { pathname } = useLocation();
-  const hrefFor = (href: string) => (pathname === "/" ? href : `/${href}`);
+  const hrefFor = (href: string) => (href.startsWith("#") && pathname !== "/" ? `/${href}` : href);
   const solid = scrolled || pathname !== "/";
 
   useEffect(() => {
@@ -28,6 +30,8 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  const navLinkClass = "text-sm font-medium text-[#C6CCDF] transition-colors hover:text-white";
 
   return (
     <header
@@ -90,9 +94,9 @@ export function Header() {
                       <div className="rounded-2xl border border-white/10 bg-[#0C1030] p-4 shadow-[0_32px_64px_-24px_rgba(3,4,18,0.9)]">
                         <div className="grid grid-cols-2 gap-1">
                           {SERVICES_DETAIL.map((service) => (
-                            <a
+                            <Link
                               key={service.slug}
-                              href={`/services/${service.slug}`}
+                              to={`/services/${service.slug}`}
                               data-testid={`dropdown-service-${service.slug}`}
                               className="group flex items-center justify-between gap-3 rounded-lg px-4 py-2.5 transition-colors hover:bg-white/5"
                             >
@@ -100,7 +104,7 @@ export function Header() {
                                 {service.name}
                               </span>
                               <ArrowRight className="h-3.5 w-3.5 text-[#FF5A36] opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
-                            </a>
+                            </Link>
                           ))}
                         </div>
                         <a
@@ -116,12 +120,16 @@ export function Header() {
                   )}
                 </AnimatePresence>
               </div>
+            ) : link.href.startsWith("/") ? (
+              <Link key={link.href} to={link.href} data-testid={`nav-link-${testIdFor(link.label)}`} className={navLinkClass}>
+                {link.label}
+              </Link>
             ) : (
               <a
                 key={link.href}
                 href={hrefFor(link.href)}
-                data-testid={`nav-link-${link.label.toLowerCase()}`}
-                className="text-sm font-medium text-[#C6CCDF] transition-colors hover:text-white"
+                data-testid={`nav-link-${testIdFor(link.label)}`}
+                className={navLinkClass}
               >
                 {link.label}
               </a>
@@ -130,14 +138,14 @@ export function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <a
-            href={hrefFor("#contact")}
+          <Link
+            to="/contact"
             data-testid="header-cta"
             className="group inline-flex items-center gap-2 rounded-md bg-[#FF5A36] px-5 py-2.5 text-sm font-semibold text-white transition-[background-color,transform] duration-200 hover:bg-[#FF3E14] active:scale-[0.98]"
           >
-            Get a Free SEO Consultation
+            Get a Free Consultation
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-          </a>
+          </Link>
         </div>
 
         <button
@@ -214,26 +222,42 @@ export function Header() {
                             All services
                           </a>
                           {SERVICES_DETAIL.map((service) => (
-                            <a
+                            <Link
                               key={service.slug}
-                              href={`/services/${service.slug}`}
+                              to={`/services/${service.slug}`}
                               onClick={() => setOpen(false)}
                               data-testid={`mobile-nav-service-${service.slug}`}
                               className="block py-2.5 pl-4 text-base text-[#A7AEC9] transition-colors hover:text-white"
                             >
                               {service.name}
-                            </a>
+                            </Link>
                           ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
+                  </motion.div>
+                ) : link.href.startsWith("/") ? (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.06 * i, duration: 0.4 }}
+                  >
+                    <Link
+                      to={link.href}
+                      onClick={() => setOpen(false)}
+                      data-testid={`mobile-nav-${testIdFor(link.label)}`}
+                      className="block border-b border-white/10 py-4 font-heading text-3xl text-white transition-colors hover:text-[#FF5A36]"
+                    >
+                      {link.label}
+                    </Link>
                   </motion.div>
                 ) : (
                   <motion.a
                     key={link.href}
                     href={hrefFor(link.href)}
                     onClick={() => setOpen(false)}
-                    data-testid={`mobile-nav-${link.label.toLowerCase()}`}
+                    data-testid={`mobile-nav-${testIdFor(link.label)}`}
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.06 * i, duration: 0.4 }}
@@ -243,29 +267,21 @@ export function Header() {
                   </motion.a>
                 )
               )}
-              <motion.a
-                href="/insights"
-                onClick={() => setOpen(false)}
-                data-testid="mobile-nav-insights"
+              <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.36, duration: 0.4 }}
-                className="border-b border-white/10 py-4 font-heading text-3xl text-white transition-colors hover:text-[#FF5A36]"
+                transition={{ delay: 0.3, duration: 0.4 }}
               >
-                Insights
-              </motion.a>
-              <motion.a
-                href={hrefFor("#contact")}
-                onClick={() => setOpen(false)}
-                data-testid="mobile-menu-cta"
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.44, duration: 0.4 }}
-                className="mt-8 inline-flex items-center justify-center gap-2 rounded-md bg-[#FF5A36] px-6 py-4 text-base font-semibold text-white"
-              >
-                Get a Free SEO Consultation
-                <ArrowRight className="h-4 w-4" />
-              </motion.a>
+                <Link
+                  to="/contact"
+                  onClick={() => setOpen(false)}
+                  data-testid="mobile-menu-cta"
+                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#FF5A36] px-6 py-4 text-base font-semibold text-white"
+                >
+                  Get a Free Consultation
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </motion.div>
             </nav>
           </motion.div>
         )}

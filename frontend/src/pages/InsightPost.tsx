@@ -136,7 +136,7 @@ export default function InsightPost() {
                 data-testid="post-cta"
                 className="group mt-6 inline-flex items-center gap-2 rounded-md bg-[#FF5A36] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#FF3E14]"
               >
-                Get a Free SEO Consultation
+                Get a Free Consultation
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
               </a>
             </div>

@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import { apiGet } from "@/lib/api";
 import { useGtmClickEvents } from "@/lib/gtm";
 import Home from "@/pages/Home";
+import About from "@/pages/About";
+import ContactUs from "@/pages/ContactUs";
 import Admin from "@/pages/Admin";
 import BlogManager from "@/pages/BlogManager";
 import CodeManager from "@/pages/CodeManager";
@@ -71,6 +73,8 @@ export default function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/blog" element={<BlogManager />} />
         <Route path="/admin/codes" element={<CodeManager />} />

@@ -45,7 +45,10 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
 - Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home); header is solid dark on all subpages so the transparent logo stays visible.
 
-## Implemented (2026-09, batch 8)
+## Implemented (2026-09, batch 9)
+- Standalone /about page (story, how-we-work values, CTA band) and /contact page (info cards, WhatsApp fast-response card, shared contact form). Header menu now: Home, Services (dropdown), About Us, Contact Us — Process and Insights removed from the header (Insights still in footer). Header CTA points to /contact.
+- Contact form extracted to components/landing/ContactForm.tsx, shared by the homepage section and /contact page.
+- CTA renamed sitewide: "Get a Free SEO Consultation" → "Get a Free Consultation" (header, hero, mobile menu, article pages). Sitemap now includes /about and /contact.
 - Marquee band updated to the 9-service lineup.
 - Header Services dropdown: desktop mega-menu (hover/focus, all 9 services + "View all services", links to /services/:slug) and expandable Services group in the mobile menu.
 - Branded 404 page (catch-all route): on-brand message, home/insights CTAs, popular service links.
