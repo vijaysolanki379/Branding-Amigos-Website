@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { ArrowRight, Clock, Loader2, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { apiPost } from "@/lib/api";
+import { trackEvent } from "@/lib/gtm";
 import { CONTACT_INFO } from "@/lib/site";
 import type { ContactInquiry } from "@/lib/site";
 import { Reveal, SectionHead } from "./Reveal";
@@ -69,6 +70,10 @@ export function ContactSection() {
         services: form.services,
         budget: form.budget || null,
         goals: form.goals,
+      });
+      trackEvent("contact_form_submit", {
+        services: form.services.join(", ") || "none selected",
+        budget: form.budget || "unspecified",
       });
       toast.success("Thank you — your request has been received.", {
         description: "We'll review your requirements and get back to you within one business day.",

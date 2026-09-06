@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { apiGet } from "@/lib/api";
+import { useGtmClickEvents } from "@/lib/gtm";
 import Home from "@/pages/Home";
 import Admin from "@/pages/Admin";
 import BlogManager from "@/pages/BlogManager";
@@ -10,6 +11,7 @@ import InsightPost from "@/pages/InsightPost";
 import ServicePage from "@/pages/ServicePage";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
+import NotFound from "@/pages/NotFound";
 import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 
 interface SiteSettings {
@@ -64,6 +66,7 @@ function useSiteCodes() {
 
 export default function App() {
   useSiteCodes();
+  useGtmClickEvents();
   return (
     <>
       <Routes>
@@ -76,6 +79,7 @@ export default function App() {
         <Route path="/services/:slug" element={<ServicePage />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <WhatsAppButton />
     </>

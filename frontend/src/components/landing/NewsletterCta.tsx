@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Loader2, MailCheck, Send } from "lucide-react";
 import { toast } from "sonner";
 import { apiPost } from "@/lib/api";
+import { trackEvent } from "@/lib/gtm";
 
 export function NewsletterCta() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ export function NewsletterCta() {
     setSubmitting(true);
     try {
       await apiPost("/newsletter", { email });
+      trackEvent("newsletter_signup", { page: window.location.pathname });
       setDone(true);
       toast.success("You're subscribed — welcome aboard.");
     } catch {

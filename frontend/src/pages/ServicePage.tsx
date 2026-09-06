@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { SERVICES_DETAIL } from "@/lib/services";
+import { SERVICE_FAQS } from "@/lib/serviceFaqs";
 import { PageShell } from "@/components/landing/PageShell";
 import { Reveal } from "@/components/landing/Reveal";
 
@@ -32,10 +33,23 @@ export default function ServicePage() {
       areaServed: { "@type": "Country", name: "India" },
     });
     document.head.appendChild(script);
+    const faqScript = document.createElement("script");
+    faqScript.type = "application/ld+json";
+    faqScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: (SERVICE_FAQS[service.slug] ?? []).map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+    document.head.appendChild(faqScript);
     return () => {
       document.title = prevTitle;
       if (meta && prevDesc) meta.setAttribute("content", prevDesc);
       script.remove();
+      faqScript.remove();
     };
   }, [service]);
 
@@ -125,6 +139,20 @@ export default function ServicePage() {
               </ul>
             </div>
           </Reveal>
+        </div>
+
+        <div className="mt-20 max-w-3xl">
+          <h2 className="font-heading text-3xl tracking-tight text-[#0A0D2C]">
+            Common questions about <em className="italic text-[#3535D6]">{service.name}</em>
+          </h2>
+          <div className="mt-8 divide-y divide-[#E2E8F0] border-y border-[#E2E8F0]">
+            {(SERVICE_FAQS[service.slug] ?? []).map((faq, i) => (
+              <div key={faq.q} data-testid={`service-faq-${i + 1}`} className="py-6">
+                <h3 className="text-base font-semibold text-[#0A0D2C]">{faq.q}</h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-[#475569]">{faq.a}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="mt-20">
