@@ -45,7 +45,9 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
 - Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home); header is solid dark on all subpages so the transparent logo stays visible.
 
-## Implemented (2026-09, batch 9)
+## Implemented (2026-09, batch 10)
+- Contact form: budget field removed (frontend + backend models + notification email), phone now mandatory (frontend required + backend min_length=7, 422 without it), successful submission redirects to a new branded /thank-you page (what-happens-next steps, direct contact links, CTAs). Dual admin+enquirer emails already coded; still gated on RESEND_API_KEY (not in env).
+- ScrollToTop on route change so page navigations land at the top.
 - Standalone /about page (story, how-we-work values, CTA band) and /contact page (info cards, WhatsApp fast-response card, shared contact form). Header menu now: Home, Services (dropdown), About Us, Contact Us — Process and Insights removed from the header (Insights still in footer). Header CTA points to /contact.
 - Contact form extracted to components/landing/ContactForm.tsx, shared by the homepage section and /contact page.
 - CTA renamed sitewide: "Get a Free SEO Consultation" → "Get a Free Consultation" (header, hero, mobile menu, article pages). Sitemap now includes /about and /contact.

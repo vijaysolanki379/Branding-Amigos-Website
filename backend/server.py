@@ -36,10 +36,9 @@ class ContactInquiryCreate(BaseModel):
     name: str = Field(min_length=2, max_length=120)
     business: Optional[str] = Field(default=None, max_length=160)
     email: EmailStr
-    phone: Optional[str] = Field(default=None, max_length=40)
+    phone: str = Field(min_length=7, max_length=40)
     website: Optional[str] = Field(default=None, max_length=300)
     services: List[str] = Field(default_factory=list, max_length=10)
-    budget: Optional[str] = Field(default=None, max_length=80)
     goals: str = Field(min_length=10, max_length=4000)
 
 
@@ -62,10 +61,9 @@ def _send_emails(inquiry: ContactInquiry) -> None:
             ("Name", inquiry.name),
             ("Business", inquiry.business or "—"),
             ("Email", inquiry.email),
-            ("Phone", inquiry.phone or "—"),
+            ("Phone", inquiry.phone),
             ("Website", inquiry.website or "—"),
             ("Services", ", ".join(inquiry.services) if inquiry.services else "—"),
-            ("Budget", inquiry.budget or "—"),
             ("Goals", inquiry.goals),
         ]
     )

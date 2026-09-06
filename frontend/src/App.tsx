@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { apiGet } from "@/lib/api";
 import { useGtmClickEvents } from "@/lib/gtm";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import ContactUs from "@/pages/ContactUs";
+import ThankYou from "@/pages/ThankYou";
 import Admin from "@/pages/Admin";
 import BlogManager from "@/pages/BlogManager";
 import CodeManager from "@/pages/CodeManager";
@@ -66,15 +67,25 @@ function useSiteCodes() {
   }, []);
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 export default function App() {
   useSiteCodes();
   useGtmClickEvents();
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/thank-you" element={<ThankYou />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/blog" element={<BlogManager />} />
         <Route path="/admin/codes" element={<CodeManager />} />

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { apiPost } from "@/lib/api";
@@ -19,14 +20,6 @@ const SERVICE_OPTIONS = [
   "Other",
 ];
 
-const BUDGET_OPTIONS = [
-  "Under ₹25,000 / month",
-  "₹25,000 – ₹60,000 / month",
-  "₹60,000 – ₹1,20,000 / month",
-  "₹1,20,000+ / month",
-  "Not sure yet",
-];
-
 const FIELD =
   "w-full rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-[#5B6280] transition-colors focus:border-[#FF5A36]/60 focus:outline-none focus:ring-2 focus:ring-[#FF5A36]/25";
 const LABEL = "mb-1.5 block font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-[#9AA2BC]";
@@ -38,13 +31,13 @@ const EMPTY = {
   phone: "",
   website: "",
   services: [] as string[],
-  budget: "",
   goals: "",
 };
 
 export function ContactForm() {
   const [form, setForm] = useState(EMPTY);
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const set = (key: keyof typeof EMPTY) => (e: { target: { value: string } }) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -63,20 +56,15 @@ export function ContactForm() {
         name: form.name,
         business: form.business || null,
         email: form.email,
-        phone: form.phone || null,
+        phone: form.phone,
         website: form.website || null,
         services: form.services,
-        budget: form.budget || null,
         goals: form.goals,
       });
       trackEvent("contact_form_submit", {
         services: form.services.join(", ") || "none selected",
-        budget: form.budget || "unspecified",
       });
-      toast.success("Thank you — your request has been received.", {
-        description: "We'll review your requirements and get back to you within one business day.",
-      });
-      setForm(EMPTY);
+      navigate("/thank-you");
     } catch {
       toast.error("Something went wrong sending your request.", {
         description: "Please try again, or email us directly at brandingamigos@gmail.com.",
@@ -110,8 +98,10 @@ export function ContactForm() {
           <input id="contact-email" data-testid="contact-email-input" type="email" required value={form.email} onChange={set("email")} placeholder="you@company.com" className={FIELD} autoComplete="email" />
         </div>
         <div>
-          <label htmlFor="contact-phone" className={LABEL}>Phone Number</label>
-          <input id="contact-phone" data-testid="contact-phone-input" type="tel" value={form.phone} onChange={set("phone")} placeholder="+91 ..." className={FIELD} autoComplete="tel" />
+          <label htmlFor="contact-phone" className={LABEL}>
+            Phone Number <span className="text-[#FF5A36]">*</span>
+          </label>
+          <input id="contact-phone" data-testid="contact-phone-input" type="tel" required minLength={7} value={form.phone} onChange={set("phone")} placeholder="+91 ..." className={FIELD} autoComplete="tel" />
         </div>
         <div className="sm:col-span-2">
           <label htmlFor="contact-website" className={LABEL}>Website URL</label>
@@ -139,18 +129,6 @@ export function ContactForm() {
           ))}
         </div>
       </fieldset>
-
-      <div className="mt-6">
-        <label htmlFor="contact-budget" className={LABEL}>Monthly Marketing Budget</label>
-        <select id="contact-budget" data-testid="contact-budget-select" value={form.budget} onChange={set("budget")} className={`${FIELD} appearance-none`}>
-          <option value="" className="bg-[#0C1030]">Select a range</option>
-          {BUDGET_OPTIONS.map((option) => (
-            <option key={option} value={option} className="bg-[#0C1030]">
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
 
       <div className="mt-6">
         <label htmlFor="contact-goals" className={LABEL}>
