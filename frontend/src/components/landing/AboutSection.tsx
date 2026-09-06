@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { Reveal, SectionHead } from "./Reveal";
+import { usePageContent } from "@/lib/content";
 
 const PRINCIPLES = [
   "Strategy before tactics",
@@ -8,10 +9,8 @@ const PRINCIPLES = [
   "Growth that compounds",
 ];
 
-const WAVES_IMG =
-  "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/aab79c92b245398704b3f3a7079f85b90c33f2909490c42053398c2ab5f3d864.jpeg";
-
 export function AboutSection() {
+  const content = usePageContent("home");
   return (
     <section id="about" data-testid="about-section" className="noise relative overflow-hidden bg-[#05061A] py-24 sm:py-32">
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -25,11 +24,12 @@ export function AboutSection() {
                 <div aria-hidden className="absolute -inset-6 rounded-[2rem] bg-[#3535D6]/15 blur-3xl" />
                 <div className="relative overflow-hidden rounded-2xl border border-white/10">
                   <img
-                    src={WAVES_IMG}
+                    src={content.about_image}
                     alt="Abstract blue data waves rising like an organic traffic growth curve, highlighted with coral marker strokes"
                     width="1264"
                     height="848"
                     loading="lazy"
+                    data-testid="about-image"
                     className="h-auto w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
                   />
                   <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#05061A]/70 via-transparent to-transparent" />

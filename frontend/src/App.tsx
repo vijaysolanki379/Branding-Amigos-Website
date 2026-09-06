@@ -9,6 +9,7 @@ import ThankYou from "@/pages/ThankYou";
 import Admin from "@/pages/Admin";
 import BlogManager from "@/pages/BlogManager";
 import CodeManager from "@/pages/CodeManager";
+import ContentManager from "@/pages/ContentManager";
 import Insights from "@/pages/Insights";
 import InsightPost from "@/pages/InsightPost";
 import ServicePage from "@/pages/ServicePage";
@@ -89,6 +90,7 @@ export default function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/blog" element={<BlogManager />} />
         <Route path="/admin/codes" element={<CodeManager />} />
+        <Route path="/admin/content" element={<ContentManager />} />
         <Route path="/insights" element={<Insights />} />
         <Route path="/insights/:slug" element={<InsightPost />} />
         <Route path="/services/:slug" element={<ServicePage />} />

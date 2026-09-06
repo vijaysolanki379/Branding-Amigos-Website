@@ -1,0 +1,28 @@
+{
+  "summary": "Retested all 4 bug fixes from iteration_1 + the new Reset button feature + regression sweep. All CMS fixes verified end-to-end (backend pytest + frontend Playwright against public preview URL). 13/13 pytest passing (added 4 new cases: services/slash key, empty-string strip + doc delete, DELETE auth, DELETE ok). All test overrides cleaned up — content collection now empty, public site shows defaults.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Global (homepage & service pages)", "issues": ["Repeating console error: '<circle> attribute r: Expected length, \"undefined\"' — some SVG is rendered with r={undefined}. Cosmetic (does not break rendering) but pollutes console; likely a Lucide/loader icon with a missing size prop."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_cms_content.py", "/app/test_reports/pytest/cms_results.xml"],
+  "action_items": [
+    "OPTIONAL: track down the SVG <circle r=undefined> console error (non-blocking, cosmetic)."
+  ],
+  "critical_code_review_comments": [
+    "PUT /api/content/{page_key:path} strips empty-string values and deletes the document when all fields are empty — clean and idempotent. DELETE endpoint is a nice additional affordance.",
+    "ContentManager.save() now diff-based (only fields that differ from defaults AND are non-empty), so GET /api/content stays minimal — verified: after saving only hero_line1 the 'home' key contains exactly {'hero_line1': ...}.",
+    "Split useEffect (notice cleared only on pageKey change) fixes the toast-flash bug; toast still visible after 2.5s in all three save paths tested."
+  ],
+  "updated_files": ["/app/backend/tests/test_cms_content.py (added 4 pytest cases)"],
+  "success_rate": {"backend": "100% (13/13 pytest passing)", "frontend": "100% (all bug fixes + reset + regression verified)"},
+  "test_credentials": "Admin key from /app/memory/test_credentials.md, sent via X-Admin-Key header and content-admin-key-input.",
+  "seed_data_creation": "No lingering test data — all overrides created during testing were deleted (DELETE + explicit cleanup). GET /api/content returns {} at end of run.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "CMS fully working. Verified: (1) service-page save via slash key services/ai-seo — PUT 200, DELETE 200, /services/ai-seo renders overridden intro + service-faq-1 shows overridden Q/A. (2) Homepage hero_line1 override renders on /, clearing the field + save reverts H1 to 'Your Brand, Growing' default. (3) content-success toast remains visible after save (>2.5s). (4) Saving only hero_line1 -> GET /api/content home={'hero_line1': ...} only. (5) content-reset-button hits DELETE /api/content/{key}, page reverts, 'contact' key removed from GET. (6) DELETE returns 401 without key, 200 with correct key. (7) Regression: /admin loads, /contact renders contact-page + info cards, /services/google-ads shows 4 default FAQs, homepage shows hero-section/why-us-image/testimonials 3 cards/header-cta/site-footer. Only cosmetic issue found: SVG <circle r=undefined> console warnings on multiple pages (non-blocking).",
+  "rca_of_the_issue": "N/A — all previously-reported bugs are fixed."
+}

@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { BarChart3, Briefcase, FileBarChart, Sprout } from "lucide-react";
 import { Reveal, SectionHead } from "./Reveal";
+import { usePageContent } from "@/lib/content";
 
 interface Feature {
   title: string;
@@ -31,10 +32,8 @@ const FEATURES: Feature[] = [
   },
 ];
 
-const PRISM_IMG =
-  "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/54a8bd9d260c3ae3dc22ad554a188b6a2e03468dc626737fb09356718d52a5e5.jpeg";
-
 export function WhyUsSection() {
+  const content = usePageContent("home");
   return (
     <section id="why-us" data-testid="why-us-section" className="noise relative overflow-hidden bg-[#05061A] py-24 sm:py-32">
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -78,11 +77,12 @@ export function WhyUsSection() {
                 <div aria-hidden className="absolute -inset-6 rounded-[2rem] bg-[#3535D6]/15 blur-3xl" />
                 <div className="relative overflow-hidden rounded-2xl border border-white/10">
                   <img
-                    src={PRISM_IMG}
+                    src={content.why_image}
                     alt="Abstract glass prisms refracting electric blue and coral light, representing clarity in search data"
                     width="1264"
                     height="848"
                     loading="lazy"
+                    data-testid="why-us-image"
                     className="h-auto w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
                   />
                   <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-[#05061A]/70 via-transparent to-transparent" />

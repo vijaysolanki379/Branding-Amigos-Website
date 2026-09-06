@@ -1,4 +1,5 @@
-import { CONTACT_INFO, NAV_LINKS } from "@/lib/site";
+import { NAV_LINKS } from "@/lib/site";
+import { usePageContent } from "@/lib/content";
 
 const SOCIAL_PATHS: Record<string, string> = {
   LinkedIn:
@@ -22,14 +23,15 @@ const FOOTER_SERVICES = [
   "AI Agents & Automation",
 ];
 
-const SOCIALS = [
-  { label: "LinkedIn", url: "https://www.linkedin.com/company/branding-amigos/" },
-  { label: "Instagram", url: "https://www.instagram.com/brandingamigos/" },
-  { label: "Facebook", url: "https://www.facebook.com/brandingamigos" },
-  { label: "X", url: "https://twitter.com/brandingamigos" },
-];
-
 export function Footer() {
+  const site = usePageContent("site");
+  const socials = [
+    { label: "LinkedIn", url: site.social_linkedin },
+    { label: "Instagram", url: site.social_instagram },
+    { label: "Facebook", url: site.social_facebook },
+    { label: "X", url: site.social_x },
+  ].filter((s) => s.url);
+
   return (
     <footer data-testid="site-footer" className="border-t border-white/10 bg-[#030412]">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
@@ -45,11 +47,9 @@ export function Footer() {
                 className="h-11 w-auto"
               />
             </a>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-[#8B93B8]">
-              SEO &amp; Digital Marketing for Sustainable Growth.
-            </p>
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-[#8B93B8]">{site.footer_tagline}</p>
             <div className="mt-7 flex gap-3">
-              {SOCIALS.map((social) => (
+              {socials.map((social) => (
                 <a
                   key={social.label}
                   href={social.url}
@@ -110,17 +110,17 @@ export function Footer() {
             <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-[#6B7394]">Contact</h3>
             <ul className="mt-5 space-y-3 text-sm text-[#C6CCDF]">
               <li>
-                <a href={`mailto:${CONTACT_INFO.email}`} data-testid="footer-email" className="transition-colors hover:text-white">
-                  {CONTACT_INFO.email}
+                <a href={`mailto:${site.contact_email}`} data-testid="footer-email" className="transition-colors hover:text-white">
+                  {site.contact_email}
                 </a>
               </li>
               <li>
-                <a href={`tel:${CONTACT_INFO.phoneHref}`} data-testid="footer-phone" className="transition-colors hover:text-white">
-                  {CONTACT_INFO.phone}
+                <a href={`tel:${site.contact_phone.replace(/[^+\d]/g, "")}`} data-testid="footer-phone" className="transition-colors hover:text-white">
+                  {site.contact_phone}
                 </a>
               </li>
-              <li>{CONTACT_INFO.location}</li>
-              <li className="text-[#8B93B8]">{CONTACT_INFO.hours}</li>
+              <li>{site.contact_location}</li>
+              <li className="text-[#8B93B8]">{site.contact_hours}</li>
             </ul>
           </div>
         </div>

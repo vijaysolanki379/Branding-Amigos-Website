@@ -74,10 +74,10 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Article covers: `cover` field on posts, generated abstract brand covers on both seeded articles, shown on homepage cards, /insights cards, and article hero; per-article og:image + BlogPosting image set for social shares; optional cover URL field in the admin publish form.
 - Enquiry status tracking: PATCH /api/contact/{id} (admin-key, status: new/contacted/closed) + status badge and "Mark as" buttons on each enquiry in /admin.
 - SEO crawl: backend/lib/sitemap.py generates /frontend/public/sitemap.xml (regenerated on every publish and seed run); robots.txt in public/ (note: Cloudflare ingress prepends its own managed content signals; our rules follow).
+- Page Content CMS (Jul 2026): /admin/content page (Page content tab) to edit copy, image URLs, and SEO params for Homepage (hero lines/sub, why-us + about images, meta), Contact page (title/accent/sub, meta), Testimonials (3 editable quotes/names/roles rendered as cards on homepage), Header & footer (header CTA text, footer tagline, contact email/phone/location/hours, 4 social URLs), and all 9 service pages (intro, included/outcomes lists, optional cover image, 4 editable FAQs each, meta). Backend: GET /api/content (public) + PUT/DELETE /api/content/{page_key:path} (admin key; empty strings stripped; all-empty payload deletes doc). Frontend: src/lib/content.ts (CONTENT_DEFAULTS + usePageContent merges DB overrides, empty-string overrides ignored; useMeta applies title/description); ContentManager does diff-based saves and has a Reset-to-defaults button. Also fixed: GET /api/contact pydantic crash on legacy phone=None enquiries (phone now Optional in response model); HeroVisual motion.circle undefined-r console warning. Tested: 13/13 pytest, full Playwright e2e (iteration_1 + iteration_2), typecheck + eslint clean.
 
 ## Backlog
-- P0: Activate Resend notifications (add RESEND_API_KEY).
-- P1: Replace case-study/testimonial placeholders with real, permissioned client data; add real social URLs.
-- P1: Privacy Policy / Terms of Service pages.
-- P2: Blog/insights section for SEO; per-service detail pages; sitemap.xml + robots.txt; Google Business Profile link; analytics (GA4).
-- P2: Admin page polish (auth session, status updates on enquiries).
+- P0: Resend email delivery NOT user-confirmed — verify brandingamigos.com sender domain in Resend, set a verified sender, then enable SEND_ENQUIRER_CONFIRMATION and live-test that both admin and enquirer receive emails. Test-mode keys can only send to the Resend account owner's address.
+- P1: User-side verifications: confirm Google Search Console ownership + submit sitemap; verify GTM events in Tag Assistant/GA4.
+- P1: Replace the 3 seeded placeholder testimonials with real, permissioned client testimonials (editable in /admin/content → Testimonials).
+- P2: Optional image file upload in the CMS (requires object-storage integration); re-add Results/Case Studies sections (components kept on disk) once real client work exists.

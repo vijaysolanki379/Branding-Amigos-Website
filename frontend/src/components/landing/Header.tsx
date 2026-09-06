@@ -4,11 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/site";
 import { SERVICES_DETAIL } from "@/lib/services";
+import { usePageContent } from "@/lib/content";
 import { EASE } from "./Reveal";
 
 const testIdFor = (label: string) => label.toLowerCase().replace(/\s+/g, "-");
 
 export function Header() {
+  const site = usePageContent("site");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -143,7 +145,7 @@ export function Header() {
             data-testid="header-cta"
             className="group inline-flex items-center gap-2 rounded-md bg-[#FF5A36] px-5 py-2.5 text-sm font-semibold text-white transition-[background-color,transform] duration-200 hover:bg-[#FF3E14] active:scale-[0.98]"
           >
-            Get a Free Consultation
+            {site.header_cta}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
         </div>
@@ -278,7 +280,7 @@ export function Header() {
                   data-testid="mobile-menu-cta"
                   className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#FF5A36] px-6 py-4 text-base font-semibold text-white"
                 >
-                  Get a Free Consultation
+                  {site.header_cta}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </motion.div>

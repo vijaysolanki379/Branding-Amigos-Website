@@ -13,8 +13,11 @@ import { FaqSection } from "@/components/landing/FaqSection";
 import { InsightsPreview } from "@/components/landing/InsightsPreview";
 import { ContactSection } from "@/components/landing/ContactSection";
 import { Footer } from "@/components/landing/Footer";
+import { useMeta, usePageContent } from "@/lib/content";
 
 export default function Home() {
+  const homeContent = usePageContent("home");
+  useMeta(homeContent.meta_title, homeContent.meta_description);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const lenis = reduced ? null : new Lenis({ lerp: 0.1, anchors: { offset: -84 } });

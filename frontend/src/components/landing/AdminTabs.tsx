@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { Code2, Inbox, PenLine } from "lucide-react";
+import { Code2, Inbox, PenLine, Settings2 } from "lucide-react";
 
 const TABS = [
   { label: "Enquiries", to: "/admin", icon: Inbox, testId: "admin-tab-enquiries" },
   { label: "Blog manager", to: "/admin/blog", icon: PenLine, testId: "admin-tab-blog" },
+  { label: "Page content", to: "/admin/content", icon: Settings2, testId: "admin-tab-content" },
   { label: "Site codes", to: "/admin/codes", icon: Code2, testId: "admin-tab-codes" },
 ];
 

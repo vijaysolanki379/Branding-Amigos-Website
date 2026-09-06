@@ -43,6 +43,8 @@ class ContactInquiryCreate(BaseModel):
 
 
 class ContactInquiry(ContactInquiryCreate):
+    # Legacy enquiries predate the required-phone rule and may have phone=None.
+    phone: Optional[str] = Field(default=None, max_length=40)
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     status: str = "new"
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -279,6 +281,37 @@ async def update_settings(payload: SiteSettings, x_admin_key: Optional[str] = He
     _check_admin(x_admin_key)
     await db.settings.update_one({"key": "site"}, {"$set": payload.model_dump()}, upsert=True)
     return payload
+
+
+class ContentUpdate(BaseModel):
+    data: dict = Field(default_factory=dict)
+
+
+@api_router.get("/content")
+async def get_content():
+    docs = await db.content.find({}, {"_id": 0}).to_list(200)
+    return {doc["key"]: doc["data"] for doc in docs if isinstance(doc.get("data"), dict)}
+
+
+@api_router.put("/content/{page_key:path}")
+async def update_content(page_key: str, payload: ContentUpdate, x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
+    if len(page_key) > 100 or len(str(payload.data)) > 30000:
+        raise HTTPException(status_code=400, detail="Content too large")
+    clean = {str(k)[:80]: str(v)[:5000] for k, v in payload.data.items() if str(v).strip()}
+    if clean:
+        await db.content.update_one({"key": page_key}, {"$set": {"data": clean}}, upsert=True)
+    else:
+        # All fields cleared -> remove the override document so defaults apply.
+        await db.content.delete_one({"key": page_key})
+    return {"key": page_key, "data": clean}
+
+
+@api_router.delete("/content/{page_key:path}")
+async def delete_content(page_key: str, x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
+    await db.content.delete_one({"key": page_key})
+    return {"ok": True}
 
 
 class InquiryStatusUpdate(BaseModel):

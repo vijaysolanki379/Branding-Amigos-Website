@@ -154,6 +154,7 @@ export function HeroVisual() {
                   fill="none"
                   stroke={n.accent}
                   strokeWidth="1.5"
+                  initial={{ r: 6, opacity: 0.5 }}
                   animate={{ r: [6, 18], opacity: [0.5, 0] }}
                   transition={{ duration: 2.4, repeat: Infinity, delay: n.d, ease: "easeOut" }}
                 />

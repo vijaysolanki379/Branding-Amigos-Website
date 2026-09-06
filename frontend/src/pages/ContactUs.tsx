@@ -1,36 +1,24 @@
-import { useEffect } from "react";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { PageShell } from "@/components/landing/PageShell";
 import { ContactForm } from "@/components/landing/ContactForm";
 import { Reveal } from "@/components/landing/Reveal";
-import { CONTACT_INFO } from "@/lib/site";
+import { useMeta, usePageContent } from "@/lib/content";
 
 const WA_URL = `https://wa.me/917984568245?text=${encodeURIComponent(
   "Hi Branding Amigos! I'd like to discuss growing my business."
 )}`;
 
-const INFO = [
-  { icon: Mail, label: "Email", value: CONTACT_INFO.email, href: `mailto:${CONTACT_INFO.email}`, testId: "contact-page-email" },
-  { icon: Phone, label: "Phone", value: CONTACT_INFO.phone, href: `tel:${CONTACT_INFO.phoneHref}`, testId: "contact-page-phone" },
-  { icon: MapPin, label: "Location", value: CONTACT_INFO.location, testId: "contact-page-location" },
-  { icon: Clock, label: "Business hours", value: CONTACT_INFO.hours, testId: "contact-page-hours" },
-];
-
 export default function ContactUs() {
-  useEffect(() => {
-    const prev = document.title;
-    document.title = "Contact Us | Branding Amigos";
-    const meta = document.querySelector('meta[name="description"]');
-    const prevDesc = meta?.getAttribute("content") ?? null;
-    meta?.setAttribute(
-      "content",
-      "Contact Branding Amigos for a free consultation. SEO, social media, ads, web design & AI automation for businesses in Ahmedabad and worldwide."
-    );
-    return () => {
-      document.title = prev;
-      if (meta && prevDesc) meta.setAttribute("content", prevDesc);
-    };
-  }, []);
+  const page = usePageContent("contact");
+  const site = usePageContent("site");
+  useMeta(page.meta_title, page.meta_description);
+
+  const info = [
+    { icon: Mail, label: "Email", value: site.contact_email, href: `mailto:${site.contact_email}`, testId: "contact-page-email" },
+    { icon: Phone, label: "Phone", value: site.contact_phone, href: `tel:${site.contact_phone.replace(/[^+\d]/g, "")}`, testId: "contact-page-phone" },
+    { icon: MapPin, label: "Location", value: site.contact_location, testId: "contact-page-location" },
+    { icon: Clock, label: "Business hours", value: site.contact_hours, testId: "contact-page-hours" },
+  ];
 
   return (
     <PageShell>
@@ -41,17 +29,14 @@ export default function ContactUs() {
             <span className="text-[#FF5A36]">]</span>
           </p>
           <h1 className="mt-5 font-heading text-4xl leading-[1.1] tracking-tight text-[#0A0D2C] sm:text-5xl lg:text-6xl">
-            Let's talk about <em className="italic text-[#3535D6]">your growth</em>
+            {page.page_title} <em className="italic text-[#3535D6]">{page.page_title_accent}</em>
           </h1>
-          <p className="mt-6 text-base leading-relaxed text-[#475569] sm:text-lg">
-            Tell us about your business, goals, and current challenges. We'll review your requirements and get back
-            to you within one business day — with honest advice, not a sales script.
-          </p>
+          <p className="mt-6 text-base leading-relaxed text-[#475569] sm:text-lg">{page.page_sub}</p>
         </div>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-12">
           <div className="space-y-4 lg:col-span-5">
-            {INFO.map((item) => {
+            {info.map((item) => {
               const Icon = item.icon;
               const content = (
                 <div className="flex items-start gap-4 rounded-2xl border border-[#E2E8F0] bg-white p-6 transition-colors hover:border-[#3535D6]/40">

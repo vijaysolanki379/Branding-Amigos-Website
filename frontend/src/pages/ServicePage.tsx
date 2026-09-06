@@ -1,29 +1,44 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { SERVICES_DETAIL } from "@/lib/services";
 import { SERVICE_FAQS } from "@/lib/serviceFaqs";
+import { asList, useMeta, usePageContent } from "@/lib/content";
 import { PageShell } from "@/components/landing/PageShell";
 import { Reveal } from "@/components/landing/Reveal";
 
 export default function ServicePage() {
   const { slug } = useParams<{ slug: string }>();
   const service = SERVICES_DETAIL.find((s) => s.slug === slug);
+  const overrides = usePageContent(slug ? `services/${slug}` : "");
+
+  const resolved = useMemo(() => {
+    if (!service) return null;
+    const editedFaqs = [1, 2, 3, 4]
+      .map((n) => ({ q: overrides[`faq${n}_q`] ?? "", a: overrides[`faq${n}_a`] ?? "" }))
+      .filter((f) => f.q.trim() && f.a.trim());
+    return {
+      intro: overrides.intro || service.intro,
+      included: overrides.included ? asList(overrides.included) : service.included,
+      outcomes: overrides.outcomes ? asList(overrides.outcomes) : service.outcomes,
+      cover: overrides.cover || "",
+      metaTitle: overrides.meta_title || service.metaTitle,
+      metaDescription: overrides.meta_description || service.metaDescription,
+      faqs: editedFaqs.length > 0 ? editedFaqs : SERVICE_FAQS[service.slug] ?? [],
+    };
+  }, [service, overrides]);
+
+  useMeta(resolved?.metaTitle, resolved?.metaDescription);
 
   useEffect(() => {
-    if (!service) return;
-    const prevTitle = document.title;
-    document.title = service.metaTitle;
-    const meta = document.querySelector('meta[name="description"]');
-    const prevDesc = meta?.getAttribute("content") ?? null;
-    meta?.setAttribute("content", service.metaDescription);
+    if (!service || !resolved) return;
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Service",
       name: service.name,
-      description: service.metaDescription,
+      description: resolved.metaDescription,
       url: `https://brandingamigos.com/services/${service.slug}`,
       provider: {
         "@type": "ProfessionalService",
@@ -38,7 +53,7 @@ export default function ServicePage() {
     faqScript.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      mainEntity: (SERVICE_FAQS[service.slug] ?? []).map((f) => ({
+      mainEntity: resolved.faqs.map((f) => ({
         "@type": "Question",
         name: f.q,
         acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -46,14 +61,12 @@ export default function ServicePage() {
     });
     document.head.appendChild(faqScript);
     return () => {
-      document.title = prevTitle;
-      if (meta && prevDesc) meta.setAttribute("content", prevDesc);
       script.remove();
       faqScript.remove();
     };
-  }, [service]);
+  }, [service, resolved]);
 
-  if (!service) {
+  if (!service || !resolved) {
     return (
       <PageShell>
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
@@ -88,7 +101,7 @@ export default function ServicePage() {
           <h1 className="mt-5 font-heading text-4xl leading-[1.1] tracking-tight text-[#0A0D2C] sm:text-5xl lg:text-6xl">
             {service.name}
           </h1>
-          <p className="mt-6 text-base leading-relaxed text-[#475569] sm:text-lg">{service.intro}</p>
+          <p className="mt-6 text-base leading-relaxed text-[#475569] sm:text-lg">{resolved.intro}</p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
             <a
               href="/#contact"
@@ -110,12 +123,26 @@ export default function ServicePage() {
           </div>
         </div>
 
+        {resolved.cover && (
+          <Reveal delay={0.1}>
+            <div className="mt-12 max-w-4xl overflow-hidden rounded-2xl border border-[#E2E8F0]">
+              <img
+                src={resolved.cover}
+                alt={`${service.name} — Branding Amigos`}
+                loading="lazy"
+                data-testid="service-cover-image"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </Reveal>
+        )}
+
         <div className="mt-20 grid gap-6 lg:grid-cols-2">
           <Reveal>
             <div className="h-full rounded-2xl border border-[#E2E8F0] bg-white p-8 sm:p-10">
               <h2 className="font-heading text-2xl tracking-tight text-[#0A0D2C]">What's included</h2>
               <ul className="mt-6 space-y-4">
-                {service.included.map((item) => (
+                {resolved.included.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-base text-[#475569]">
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#10134A]">
                       <Check className="h-3 w-3 text-[#FF5A36]" aria-hidden />
@@ -130,7 +157,7 @@ export default function ServicePage() {
             <div className="h-full rounded-2xl bg-[#05061A] p-8 sm:p-10">
               <h2 className="font-heading text-2xl tracking-tight text-white">What you can expect</h2>
               <ul className="mt-6 space-y-4">
-                {service.outcomes.map((item) => (
+                {resolved.outcomes.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-base text-[#C6CCDF]">
                     <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rotate-45 bg-[#FF5A36]" aria-hidden />
                     {item}
@@ -146,7 +173,7 @@ export default function ServicePage() {
             Common questions about <em className="italic text-[#3535D6]">{service.name}</em>
           </h2>
           <div className="mt-8 divide-y divide-[#E2E8F0] border-y border-[#E2E8F0]">
-            {(SERVICE_FAQS[service.slug] ?? []).map((faq, i) => (
+            {resolved.faqs.map((faq, i) => (
               <div key={faq.q} data-testid={`service-faq-${i + 1}`} className="py-6">
                 <h3 className="text-base font-semibold text-[#0A0D2C]">{faq.q}</h3>
                 <p className="mt-2.5 text-sm leading-relaxed text-[#475569]">{faq.a}</p>

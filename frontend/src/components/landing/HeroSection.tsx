@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { HeroVisual } from "./HeroVisual";
 import { EASE } from "./Reveal";
+import { usePageContent } from "@/lib/content";
 
 function MaskedLine({ children, delay }: { children: ReactNode; delay: number }) {
   const reduce = useReducedMotion();
@@ -22,6 +23,7 @@ function MaskedLine({ children, delay }: { children: ReactNode; delay: number })
 
 export function HeroSection() {
   const reduce = useReducedMotion();
+  const content = usePageContent("home");
   return (
     <section id="home" data-testid="hero-section" className="noise relative overflow-hidden bg-[#05061A]">
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -42,10 +44,10 @@ export function HeroSection() {
           </motion.p>
 
           <h1 className="mt-7 font-heading text-[2.75rem] leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[4.4rem]">
-            <MaskedLine delay={0.25}>Your Brand, Growing</MaskedLine>
-            <MaskedLine delay={0.37}>Everywhere Your</MaskedLine>
+            <MaskedLine delay={0.25}>{content.hero_line1}</MaskedLine>
+            <MaskedLine delay={0.37}>{content.hero_line2}</MaskedLine>
             <MaskedLine delay={0.49}>
-              <em className="italic text-[#FF5A36]">Customers Are</em>
+              <em className="italic text-[#FF5A36]">{content.hero_line3}</em>
             </MaskedLine>
           </h1>
 
@@ -55,8 +57,7 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.75, ease: EASE }}
             className="mt-7 max-w-xl text-base leading-relaxed text-[#A7AEC9] sm:text-lg"
           >
-            Branding Amigos combines SEO, social media, paid ads, content, and AI-powered automation to help
-            businesses become more visible, attract qualified customers, and grow online.
+            {content.hero_sub}
           </motion.p>
 
           <motion.div
