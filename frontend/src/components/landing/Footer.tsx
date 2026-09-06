@@ -77,6 +77,11 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a href="/insights" data-testid="footer-nav-insights" className="text-sm text-[#C6CCDF] transition-colors hover:text-white">
+                  Insights
+                </a>
+              </li>
             </ul>
           </nav>
 
@@ -119,10 +124,10 @@ export function Footer() {
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
           <p className="text-xs text-[#6B7394]">© 2026 Branding Amigos. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" data-testid="footer-privacy" className="text-xs text-[#6B7394] transition-colors hover:text-white">
+            <a href="/privacy" data-testid="footer-privacy" className="text-xs text-[#6B7394] transition-colors hover:text-white">
               Privacy Policy
             </a>
-            <a href="#" data-testid="footer-terms" className="text-xs text-[#6B7394] transition-colors hover:text-white">
+            <a href="/terms" data-testid="footer-terms" className="text-xs text-[#6B7394] transition-colors hover:text-white">
               Terms of Service
             </a>
           </div>

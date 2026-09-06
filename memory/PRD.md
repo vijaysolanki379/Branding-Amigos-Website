@@ -35,9 +35,15 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Browser pass (public URL, desktop + 390px mobile): hero, services dialog, FAQ accordion, form submit + success toast, mobile menu, 0px horizontal overflow.
 
 ## Known gaps / not active
-- Resend email notifications: RESEND_API_KEY not in environment — enquiries are stored, email is skipped (logged). Add key + restart backend to activate. NOTE: resend.dev testing mode only sends to verified addresses.
-- Social links, Privacy Policy, Terms of Service are `#` placeholders by design.
+- Resend email notifications: the code is fully wired (POST /api/contact sends an HTML notification to brandingamigos@gmail.com via `asyncio.to_thread` when RESEND_API_KEY exists) but no key is present in the pod environment yet — enquiries are stored, email is skipped (logged). Auto-activates when the managed key lands in backend/.env; no code change needed.
+- Social links are `#` placeholders by design.
 - Case studies/testimonials/metrics are honest placeholders awaiting real client data.
+
+## Implemented (2026-09)
+- Email alerts: Resend notification path implemented per playbook (SENDER_EMAIL=onboarding@resend.dev, NOTIFY_EMAIL in .env, reply_to = enquirer). Pending platform key.
+- Legal pages: /privacy and /terms with real business details and an explicit "no guaranteed rankings" clause; footer links now real routes.
+- Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
+- Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home).
 
 ## Backlog
 - P0: Activate Resend notifications (add RESEND_API_KEY).

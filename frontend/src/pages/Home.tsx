@@ -12,22 +12,33 @@ import { CaseStudiesSection } from "@/components/landing/CaseStudiesSection";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { FaqSection } from "@/components/landing/FaqSection";
+import { InsightsPreview } from "@/components/landing/InsightsPreview";
 import { ContactSection } from "@/components/landing/ContactSection";
 import { Footer } from "@/components/landing/Footer";
 
 export default function Home() {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const lenis = new Lenis({ lerp: 0.1, anchors: { offset: -84 } });
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const lenis = reduced ? null : new Lenis({ lerp: 0.1, anchors: { offset: -84 } });
     let raf = 0;
-    const loop = (time: number) => {
-      lenis.raf(time);
+    if (lenis) {
+      const loop = (time: number) => {
+        lenis.raf(time);
+        raf = requestAnimationFrame(loop);
+      };
       raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
+    }
+    const hash = window.location.hash;
+    const timer = hash
+      ? window.setTimeout(() => {
+          if (lenis) lenis.scrollTo(hash, { offset: -84, immediate: true });
+          else document.querySelector(hash)?.scrollIntoView();
+        }, 350)
+      : null;
     return () => {
+      if (timer) clearTimeout(timer);
+      if (lenis) lenis.destroy();
       cancelAnimationFrame(raf);
-      lenis.destroy();
     };
   }, []);
 
@@ -45,6 +56,7 @@ export default function Home() {
         <AboutSection />
         <TestimonialsSection />
         <FaqSection />
+        <InsightsPreview />
         <ContactSection />
       </main>
       <Footer />

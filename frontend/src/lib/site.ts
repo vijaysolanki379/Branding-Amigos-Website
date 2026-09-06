@@ -28,3 +28,17 @@ export interface ContactInquiry {
   status: string;
   created_at: string;
 }
+
+export interface PostSummary {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  tags: string[];
+  author: string;
+  published_at: string;
+}
+
+export interface InsightPost extends PostSummary {
+  content: string;
+}

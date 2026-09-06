@@ -100,19 +100,72 @@ async def create_inquiry(payload: ContactInquiryCreate):
     return inquiry
 
 
-@api_router.get("/contact", response_model=List[ContactInquiry])
-async def list_inquiries(x_admin_key: Optional[str] = Header(default=None)):
+def _check_admin(x_admin_key: Optional[str]) -> None:
     admin_key = os.environ.get("ADMIN_KEY")
     if not admin_key or x_admin_key != admin_key:
         raise HTTPException(status_code=401, detail="Invalid admin key")
+
+
+def _normalize_ts(doc: dict, field: str) -> None:
+    ts = doc.get(field)
+    if isinstance(ts, datetime) and ts.tzinfo is None:
+        doc[field] = ts.replace(tzinfo=timezone.utc)
+
+
+def _slugify(title: str) -> str:
+    import re
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")
+    return slug or uuid.uuid4().hex[:8]
+
+
+@api_router.get("/contact", response_model=List[ContactInquiry])
+async def list_inquiries(x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
     docs = await db.inquiries.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
-    result = []
     for doc in docs:
-        ts = doc.get("created_at")
-        if isinstance(ts, datetime) and ts.tzinfo is None:
-            doc["created_at"] = ts.replace(tzinfo=timezone.utc)
-        result.append(ContactInquiry(**doc))
-    return result
+        _normalize_ts(doc, "created_at")
+    return [ContactInquiry(**doc) for doc in docs]
+
+
+class PostCreate(BaseModel):
+    title: str = Field(min_length=4, max_length=200)
+    excerpt: str = Field(min_length=10, max_length=400)
+    content: str = Field(min_length=50, max_length=50000)
+    tags: List[str] = Field(default_factory=list, max_length=6)
+    author: str = Field(default="Branding Amigos", max_length=120)
+
+
+class Post(PostCreate):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    slug: str = ""
+    published_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+@api_router.get("/posts", response_model=List[Post])
+async def list_posts():
+    docs = await db.posts.find({}, {"_id": 0}).sort("published_at", -1).to_list(200)
+    for doc in docs:
+        _normalize_ts(doc, "published_at")
+    return [Post(**doc) for doc in docs]
+
+
+@api_router.get("/posts/{slug}", response_model=Post)
+async def get_post(slug: str):
+    doc = await db.posts.find_one({"slug": slug}, {"_id": 0})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Post not found")
+    _normalize_ts(doc, "published_at")
+    return Post(**doc)
+
+
+@api_router.post("/posts", response_model=Post, status_code=201)
+async def create_post(payload: PostCreate, x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
+    post = Post(**payload.model_dump(), slug=_slugify(payload.title))
+    if await db.posts.find_one({"slug": post.slug}):
+        post.slug = f"{post.slug}-{uuid.uuid4().hex[:6]}"
+    await db.posts.insert_one(post.model_dump())
+    return post
 
 
 app.include_router(api_router)

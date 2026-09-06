@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/site";
@@ -6,6 +7,8 @@ import { NAV_LINKS } from "@/lib/site";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const hrefFor = (href: string) => (pathname === "/" ? href : `/${href}`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -33,7 +36,7 @@ export function Header() {
           scrolled ? "py-3" : "py-5"
         }`}
       >
-        <a href="#home" data-testid="header-logo" aria-label="Branding Amigos — home" className="shrink-0">
+        <a href={hrefFor("#home")} data-testid="header-logo" aria-label="Branding Amigos — home" className="shrink-0">
           <img
             src="/branding-amigos-logo-mark.png"
             alt="Branding Amigos — SEO & Digital Marketing Agency"
@@ -47,7 +50,7 @@ export function Header() {
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={hrefFor(link.href)}
               data-testid={`nav-link-${link.label.toLowerCase()}`}
               className="text-sm font-medium text-[#C6CCDF] transition-colors hover:text-white"
             >
@@ -58,7 +61,7 @@ export function Header() {
 
         <div className="hidden lg:block">
           <a
-            href="#contact"
+            href={hrefFor("#contact")}
             data-testid="header-cta"
             className="group inline-flex items-center gap-2 rounded-md bg-[#FF5A36] px-5 py-2.5 text-sm font-semibold text-white transition-[background-color,transform] duration-200 hover:bg-[#FF3E14] active:scale-[0.98]"
           >
@@ -105,7 +108,7 @@ export function Header() {
               {NAV_LINKS.map((link, i) => (
                 <motion.a
                   key={link.href}
-                  href={link.href}
+                  href={hrefFor(link.href)}
                   onClick={() => setOpen(false)}
                   data-testid={`mobile-nav-${link.label.toLowerCase()}`}
                   initial={{ opacity: 0, y: 18 }}
@@ -117,12 +120,23 @@ export function Header() {
                 </motion.a>
               ))}
               <motion.a
-                href="#contact"
+                href="/insights"
+                onClick={() => setOpen(false)}
+                data-testid="mobile-nav-insights"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.36, duration: 0.4 }}
+                className="border-b border-white/10 py-4 font-heading text-3xl text-white transition-colors hover:text-[#FF5A36]"
+              >
+                Insights
+              </motion.a>
+              <motion.a
+                href={hrefFor("#contact")}
                 onClick={() => setOpen(false)}
                 data-testid="mobile-menu-cta"
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
+                transition={{ delay: 0.44, duration: 0.4 }}
                 className="mt-8 inline-flex items-center justify-center gap-2 rounded-md bg-[#FF5A36] px-6 py-4 text-base font-semibold text-white"
               >
                 Get a Free SEO Consultation

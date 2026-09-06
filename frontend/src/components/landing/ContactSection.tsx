@@ -90,7 +90,7 @@ export function ContactSection() {
         <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionHead
-              index="09"
+              index="10"
               label="CONTACT"
               dark
               title={<>Let's Grow Your <em className="italic text-[#FF5A36]">Search Visibility</em></>}
