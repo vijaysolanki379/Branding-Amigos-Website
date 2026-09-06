@@ -45,7 +45,9 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
 - Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home); header is solid dark on all subpages so the transparent logo stays visible.
 
-## Implemented (2026-09, batch 7)
+## Implemented (2026-09, batch 8)
+- Marquee band updated to the 9-service lineup.
+- Header Services dropdown: desktop mega-menu (hover/focus, all 9 services + "View all services", links to /services/:slug) and expandable Services group in the mobile menu.
 - Branded 404 page (catch-all route): on-brand message, home/insights CTAs, popular service links.
 - Service FAQs: src/lib/serviceFaqs.ts holds 4 Q&As per service (36 total), rendered visibly on each service page + FAQPage JSON-LD injected per page (verified: Service + FAQPage schema both present).
 - GTM conversion events via src/lib/gtm.ts: global click delegation pushes call_click (tel: links), email_click (mailto:), whatsapp_click (wa.me links incl. floating button) with page context; contact_form_submit on successful enquiry (with services + budget), newsletter_signup on subscribe. Verified live in dataLayer.

@@ -1,4 +1,14 @@
-const ITEMS = ["SEO Strategy", "Technical SEO", "Content", "Local SEO", "Link Building", "Performance"];
+const ITEMS = [
+  "Social Media Marketing",
+  "AI SEO",
+  "Meta Ads",
+  "Google Ads",
+  "Web Design",
+  "Content Marketing",
+  "AI Influencer Marketing",
+  "WhatsApp Automation",
+  "AI Agents & Automation",
+];
 
 export function Marquee() {
   return (
