@@ -228,6 +228,38 @@ async def update_post(post_id: str, payload: PostUpdate, x_admin_key: Optional[s
     return Post(**doc)
 
 
+class SubscriberCreate(BaseModel):
+    email: EmailStr
+
+
+class Subscriber(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: EmailStr
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+@api_router.post("/newsletter", response_model=Subscriber, status_code=201)
+async def subscribe(payload: SubscriberCreate):
+    email = payload.email.lower()
+    existing = await db.subscribers.find_one({"email": email})
+    if existing:
+        existing.pop("_id", None)
+        _normalize_ts(existing, "created_at")
+        return Subscriber(**existing)
+    subscriber = Subscriber(email=email)
+    await db.subscribers.insert_one(subscriber.model_dump())
+    return subscriber
+
+
+@api_router.get("/newsletter", response_model=List[Subscriber])
+async def list_subscribers(x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
+    docs = await db.subscribers.find({}, {"_id": 0}).sort("created_at", -1).to_list(1000)
+    for doc in docs:
+        _normalize_ts(doc, "created_at")
+    return [Subscriber(**doc) for doc in docs]
+
+
 class InquiryStatusUpdate(BaseModel):
     status: str = Field(pattern="^(new|contacted|closed)$")
 

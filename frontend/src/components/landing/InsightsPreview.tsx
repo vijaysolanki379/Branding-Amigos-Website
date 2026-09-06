@@ -3,6 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { apiGet } from "@/lib/api";
 import type { PostSummary } from "@/lib/site";
 import { Reveal, SectionHead } from "./Reveal";
+import { NewsletterCta } from "./NewsletterCta";
 
 export function formatPostDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
@@ -77,6 +78,8 @@ export function InsightsPreview() {
             </Reveal>
           ))}
         </div>
+
+        <NewsletterCta />
       </div>
     </section>
   );

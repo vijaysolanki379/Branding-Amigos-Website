@@ -45,7 +45,10 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
 - Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home); header is solid dark on all subpages so the transparent logo stays visible.
 
-## Implemented (2026-09, batch 3)
+## Implemented (2026-09, batch 4)
+- Article sharing: LinkedIn + X web-intent share buttons and a copy-link button on every article page (share URL uses the canonical brandingamigos.com domain).
+- Newsletter: POST /api/newsletter (idempotent, lowercases emails, 422 on invalid) + GET /api/newsletter (admin key). Dark "SEO insights, straight to your inbox" signup card under the homepage insights grid with success state + toast; subscriber list shown in /admin under enquiries.
+- Google Search Console: commented verification meta-tag placeholder in index.html head — user must paste their token from search.google.com/search-console (HTML tag method) and uncomment. Verification happens against the live domain, so do it at/after launch.
 - Results and Case Studies sections removed from the homepage (components kept on disk for future re-add); "Results" removed from nav; section numbering re-sequenced 01–08.
 - Dedicated blog manager at /admin/blog: list/edit/publish articles with SEO parameters (meta title 60-char guide, meta description 160-char guide, focus keyword). Backend: PostUpdate model + PUT /api/posts/{id} (slug stays stable on edit). InsightPost applies meta_title/meta_description/focus_keyword (keywords meta) when set. Old ArticlePublisher component removed; /admin now links to the blog manager.
 - Real social URLs live in footer (LinkedIn /company/branding-amigos, Instagram, Facebook, X/Twitter — new tab, noopener).

@@ -6,6 +6,7 @@ import { apiGet } from "@/lib/api";
 import type { InsightPost as InsightPostType } from "@/lib/site";
 import { PageShell } from "@/components/landing/PageShell";
 import { formatPostDate } from "@/components/landing/InsightsPreview";
+import { ShareButtons } from "@/components/landing/ShareButtons";
 
 function renderContent(content: string) {
   return content.split(/\n\n+/).map((block, i) => {
@@ -111,6 +112,7 @@ export default function InsightPost() {
             <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.2em] text-[#94A3B8]">
               {post.author} <span className="text-[#FF5A36]">•</span> {formatPostDate(post.published_at)}
             </p>
+            <ShareButtons title={post.title} slug={post.slug} />
             {post.cover && (
               <img
                 src={post.cover}

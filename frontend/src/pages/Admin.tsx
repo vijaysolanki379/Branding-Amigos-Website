@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Inbox, Loader2, PenLine } from "lucide-react";
+import { ArrowLeft, Inbox, Loader2, MailCheck, PenLine } from "lucide-react";
 import type { ContactInquiry } from "@/lib/site";
 import { EnquiryCard } from "@/components/landing/EnquiryCard";
+
+interface Subscriber {
+  id: string;
+  email: string;
+  created_at: string;
+}
 
 export default function Admin() {
   const [key, setKey] = useState(() => sessionStorage.getItem("ba_admin") ?? "");
   const [items, setItems] = useState<ContactInquiry[] | null>(null);
+  const [subs, setSubs] = useState<Subscriber[] | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -14,14 +21,18 @@ export default function Admin() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/contact", { headers: { "X-Admin-Key": key } });
-      if (!res.ok) throw new Error(String(res.status));
-      const data = (await res.json()) as ContactInquiry[];
-      setItems(data);
+      const [enqRes, subRes] = await Promise.all([
+        fetch("/api/contact", { headers: { "X-Admin-Key": key } }),
+        fetch("/api/newsletter", { headers: { "X-Admin-Key": key } }),
+      ]);
+      if (!enqRes.ok) throw new Error(String(enqRes.status));
+      setItems((await enqRes.json()) as ContactInquiry[]);
+      if (subRes.ok) setSubs((await subRes.json()) as Subscriber[]);
       sessionStorage.setItem("ba_admin", key);
     } catch {
       setError("Could not load enquiries. Check your admin key and try again.");
       setItems(null);
+      setSubs(null);
     } finally {
       setLoading(false);
     }
@@ -34,7 +45,7 @@ export default function Admin() {
           <ArrowLeft className="h-4 w-4" /> Back to site
         </Link>
         <h1 className="font-heading text-4xl">Branding Amigos admin</h1>
-        <p className="mt-3 text-sm text-[#8B93B8]">Enter your admin key to review enquiries and track follow-ups.</p>
+        <p className="mt-3 text-sm text-[#8B93B8]">Enter your admin key to review enquiries, track follow-ups, and see newsletter subscribers.</p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <input
             type="password"
@@ -86,6 +97,25 @@ export default function Admin() {
                   }
                 />
               ))}
+            </div>
+          )}
+          {subs && (
+            <div data-testid="admin-subscribers" className="mt-14">
+              <h2 className="flex items-center gap-2 font-heading text-2xl">
+                <MailCheck className="h-5 w-5 text-[#FF5A36]" aria-hidden /> Newsletter subscribers ({subs.length})
+              </h2>
+              {subs.length === 0 ? (
+                <p className="mt-4 text-sm text-[#8B93B8]">No subscribers yet.</p>
+              ) : (
+                <ul className="mt-4 divide-y divide-white/10 rounded-xl border border-white/10 bg-[#0C1030]">
+                  {subs.map((sub) => (
+                    <li key={sub.id} className="flex items-center justify-between px-5 py-3 text-sm">
+                      <span>{sub.email}</span>
+                      <time className="font-mono text-xs text-[#8B93B8]">{new Date(sub.created_at).toLocaleDateString()}</time>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
         </div>
