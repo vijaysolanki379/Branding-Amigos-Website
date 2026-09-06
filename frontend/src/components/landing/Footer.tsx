@@ -11,13 +11,15 @@ const SOCIAL_PATHS: Record<string, string> = {
 };
 
 const FOOTER_SERVICES = [
-  "SEO Strategy",
-  "Technical SEO",
-  "On-Page SEO",
-  "Content SEO",
-  "Local SEO",
-  "Link Building",
-  "SEO Audits",
+  "Social Media Marketing",
+  "AI SEO",
+  "Meta Ads",
+  "Google Ads",
+  "Web Design",
+  "Content Marketing",
+  "AI Influencer Marketing",
+  "WhatsApp Automation",
+  "AI Agents & Automation",
 ];
 
 const SOCIALS = [

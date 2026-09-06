@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Inbox, Loader2, MailCheck, PenLine } from "lucide-react";
+import { ArrowLeft, Inbox, Loader2, MailCheck } from "lucide-react";
 import type { ContactInquiry } from "@/lib/site";
 import { EnquiryCard } from "@/components/landing/EnquiryCard";
+import { AdminTabs } from "@/components/landing/AdminTabs";
 
 interface Subscriber {
   id: string;
@@ -57,21 +58,7 @@ export default function Admin() {
           />
         </div>
 
-        <div className="mt-8 flex gap-2 border-b border-white/10 pb-px">
-          <span
-            data-testid="admin-tab-enquiries"
-            className="inline-flex items-center gap-2 rounded-t-lg bg-[#0C1030] px-5 py-3 text-sm font-semibold text-white"
-          >
-            <Inbox className="h-4 w-4" /> Enquiries
-          </span>
-          <Link
-            to="/admin/blog"
-            data-testid="admin-tab-blog"
-            className="inline-flex items-center gap-2 rounded-t-lg px-5 py-3 text-sm font-semibold text-[#8B93B8] transition-colors hover:text-white"
-          >
-            <PenLine className="h-4 w-4" /> Blog manager
-          </Link>
-        </div>
+        <AdminTabs />
 
         <div>
           <button

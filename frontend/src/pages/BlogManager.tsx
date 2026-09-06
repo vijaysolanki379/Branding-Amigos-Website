@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, FileText, Loader2, PenLine, Plus, RefreshCw, Send } from "lucide-react";
+import { AdminTabs } from "@/components/landing/AdminTabs";
 import type { InsightPost } from "@/lib/site";
 
 const FIELD =
@@ -124,6 +125,8 @@ export default function BlogManager() {
             className={FIELD}
           />
         </div>
+
+        <AdminTabs />
 
         <div className="mt-12 grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-5">

@@ -9,8 +9,8 @@ const FAQS = [
     a: "SEO compounds over time. Technical improvements can have an effect within weeks, but meaningful growth in traffic and leads typically takes three to six months, depending on your market, competition, and website history. We'll always give you an honest assessment for your situation — no responsible agency can promise exact dates.",
   },
   {
-    q: "What SEO services does Branding Amigos provide?",
-    a: "We cover the full search stack: SEO strategy and consulting, technical SEO, on-page optimisation, content strategy and SEO content, local SEO, link building and digital PR, keyword research and competitor analysis, and in-depth SEO audits. We also support growth with complementary digital marketing such as paid ads, social media, and automation where it makes sense.",
+    q: "What services does Branding Amigos provide?",
+    a: "We offer a full digital growth stack: social media marketing, AI SEO (including Google AI Overview and AI assistants like ChatGPT), Meta ads, Google Ads, web design, content marketing, AI influencer marketing, WhatsApp Business automation, and AI agents & automation — everything a growing business needs under one roof.",
   },
   {
     q: "Do you work with local businesses?",

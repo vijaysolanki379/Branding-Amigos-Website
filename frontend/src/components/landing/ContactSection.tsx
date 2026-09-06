@@ -8,13 +8,15 @@ import type { ContactInquiry } from "@/lib/site";
 import { Reveal, SectionHead } from "./Reveal";
 
 const SERVICE_OPTIONS = [
-  "SEO Strategy",
-  "Technical SEO",
-  "On-Page SEO",
-  "Content SEO",
-  "Local SEO",
-  "Link Building",
-  "SEO Audit",
+  "Social Media Marketing",
+  "AI SEO",
+  "Meta Ads",
+  "Google Ads",
+  "Web Design",
+  "Content Marketing",
+  "AI Influencer Marketing",
+  "WhatsApp Business Automation",
+  "AI Agents & Automation",
   "Other",
 ];
 

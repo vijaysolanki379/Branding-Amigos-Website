@@ -260,6 +260,26 @@ async def list_subscribers(x_admin_key: Optional[str] = Header(default=None)):
     return [Subscriber(**doc) for doc in docs]
 
 
+class SiteSettings(BaseModel):
+    head_code: str = Field(default="", max_length=20000)
+    body_code: str = Field(default="", max_length=20000)
+
+
+@api_router.get("/settings", response_model=SiteSettings)
+async def get_settings():
+    doc = await db.settings.find_one({"key": "site"}, {"_id": 0})
+    if not doc:
+        return SiteSettings()
+    return SiteSettings(**doc)
+
+
+@api_router.put("/settings", response_model=SiteSettings)
+async def update_settings(payload: SiteSettings, x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
+    await db.settings.update_one({"key": "site"}, {"$set": payload.model_dump()}, upsert=True)
+    return payload
+
+
 class InquiryStatusUpdate(BaseModel):
     status: str = Field(pattern="^(new|contacted|closed)$")
 
