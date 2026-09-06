@@ -1,0 +1,293 @@
+{
+  "theme": "hybrid_editorial_rhythm",
+  "archetype": "The Editorial Future meets High-Performance SEO Authority",
+  "colors": {
+    "palette": {
+      "deep_navy_black": "#05061A",
+      "rich_navy": "#10134A",
+      "royal_blue": "#2927A8",
+      "electric_blue": "#3535D6",
+      "electric_blue_light": "#4F46E5",
+      "coral_orange": "#FF5A36",
+      "coral_orange_hover": "#FF3E14",
+      "pure_white": "#FFFFFF",
+      "soft_white": "#F5F5F7",
+      "light_slate": "#F0F2F6",
+      "light_border": "#E2E8F0",
+      "dark_border": "rgba(255, 255, 255, 0.12)",
+      "dark_border_subtle": "rgba(53, 53, 214, 0.25)",
+      "text_dark_primary": "#0A0D2C",
+      "text_dark_muted": "#4B5563",
+      "text_light_primary": "#FFFFFF",
+      "text_light_muted": "#94A3B8"
+    },
+    "surfaces": [
+      {
+        "name": "dark_page_hero_why_results_cta",
+        "kind": "solid",
+        "bg": "#05061A",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#94A3B8",
+        "roles": {
+          "accent": "#FF5A36",
+          "accent_hover": "#FF3E14",
+          "brand_blue": "#3535D6",
+          "brand_blue_glow": "#2927A8",
+          "border": "rgba(255, 255, 255, 0.12)",
+          "border_active": "rgba(53, 53, 214, 0.5)"
+        }
+      },
+      {
+        "name": "dark_card_surface",
+        "kind": "solid",
+        "bg": "#10134A",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#CBD5E1",
+        "roles": {
+          "accent": "#FF5A36",
+          "border": "rgba(255, 255, 255, 0.14)"
+        }
+      },
+      {
+        "name": "light_page_services_process_cases_faq",
+        "kind": "solid",
+        "bg": "#F5F5F7",
+        "on_bg": "#0A0D2C",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "accent": "#FF5A36",
+          "brand_blue": "#2927A8",
+          "border": "#E2E8F0",
+          "border_hover": "#3535D6"
+        }
+      },
+      {
+        "name": "light_card_surface",
+        "kind": "solid",
+        "bg": "#FFFFFF",
+        "on_bg": "#0A0D2C",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "accent": "#FF5A36",
+          "border": "#E2E8F0"
+        }
+      },
+      {
+        "name": "header_glass_sticky",
+        "kind": "glass",
+        "contrast_against": "#05061A",
+        "guarantee": "backdrop-blur-xl bg-[#05061A]/85 border-b border-white/10",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#94A3B8",
+        "roles": {
+          "accent": "#FF5A36"
+        }
+      },
+      {
+        "name": "primary_cta_orange",
+        "kind": "solid",
+        "bg": "#FF5A36",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#FFF0ED"
+      },
+      {
+        "name": "tag_pill_navy",
+        "kind": "solid",
+        "bg": "#10134A",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#CBD5E1"
+      },
+      {
+        "name": "tag_pill_light",
+        "kind": "solid",
+        "bg": "#EAEBEE",
+        "on_bg": "#0A0D2C",
+        "on_bg_muted": "#475569"
+      }
+    ],
+    "accent": "#FF5A36",
+    "on_accent": "#FFFFFF"
+  },
+  "typography": {
+    "font_family": {
+      "heading": "'Playfair Display Variable', Georgia, serif",
+      "body": "'DM Sans Variable', sans-serif",
+      "mono": "'JetBrains Mono Variable', monospace"
+    },
+    "font_imports": [
+      "@import \"@fontsource-variable/playfair-display\";",
+      "@import \"@fontsource-variable/dm-sans\";",
+      "@import \"@fontsource-variable/jetbrains-mono\";"
+    ],
+    "scale_px": {
+      "display": 60,
+      "h1": 48,
+      "h2": 36,
+      "h3": 24,
+      "h4": 20,
+      "body": 16,
+      "caption": 14
+    },
+    "letter_spacing": {
+      "eyebrow": "tracking-[0.2em] uppercase font-mono text-xs sm:text-sm font-semibold",
+      "headline": "tracking-tight leading-[1.08]",
+      "subheadline": "tracking-normal leading-relaxed text-lg sm:text-xl",
+      "body": "tracking-normal leading-relaxed text-base"
+    }
+  },
+  "entry_surfaces": {
+    "/": "split hero — brand positioning, high-contrast serif headline, dual CTAs and credibility strip left; custom animated interactive SEO-growth algorithmic telemetry visual right with glowing blue matrix and orange accents"
+  },
+  "visual_enhancers": {
+    "signature_elements": [
+      "Alternating section rhythm: Hero (Dark #05061A) -> Services (Light #F5F5F7) -> Why Branding Amigos (Dark #05061A) -> Process (Light #F5F5F7) -> Results Metrics (Dark #05061A) -> Case Studies (Light #F5F5F7) -> About (Dark #05061A) -> FAQ (Light #F5F5F7) -> Contact & CTA (Dark #05061A) -> Footer (Dark #030412)",
+      "Subtle atmospheric deep blue radial glow (radial-gradient(circle at 50% 30%, rgba(41,39,168,0.25) 0%, transparent 70%)) on dark sections",
+      "Organic editorial ribbons and numbered section manifesto indexes (e.g., [ 01 / SERVICES ], [ 02 / WHY US ])",
+      "Precision 1px high-contrast structural borders with hover state illumination in Royal Electric Blue #3535D6 and Coral Orange #FF5A36",
+      "Abstract custom SEO Growth Canvas/SVG animation displaying real-time ranking trajectories, keyword velocity, SERP dominance vectors, crawl efficiency nodes, and crawl depth metrics (NO generic office stock photos)"
+    ],
+    "noise_texture": "subtle SVG feTurbulence background filter at 0.03 opacity for dark sections to prevent digital flatness",
+    "marquee": "Slow editorial ribbon marquee presenting core competencies: Strategy • Technical SEO • Editorial Authority • High-Intent Keywords • Entity Optimization • Algorithmic Resilience"
+  },
+  "layout_and_grids": {
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "section_padding": "py-24 sm:py-32 lg:py-36",
+    "services_bento": "grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 with 2 key featured services spanning col-span-12 md:col-span-6 and 6 specialized services spanning col-span-12 md:col-span-6 lg:col-span-4",
+    "why_us_grid": "grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 with asymmetric card elevations and deep navy glass styling",
+    "process_flow": "5-step sequential progressive numbered timeline with connector lines, active indicator pins, and deliverable highlights",
+    "results_grid": "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 with large prominent metric counters (placeholder design, honest disclaimer, zero fabricated claims)",
+    "case_studies_grid": "grid grid-cols-1 lg:grid-cols-3 gap-8 with Challenge / Strategy / Result modular tabs or sections and clear client tags",
+    "faq_accordion": "max-w-4xl mx-auto divide-y divide-slate-200"
+  },
+  "media": {
+    "logo_asset_rules": "Use official Branding Amigos logo in header and footer. Deep black/navy base with electric blue, white editorial serif lettering, and bright orange hand-drawn accent. Never recolor or distort.",
+    "abstract_visuals": [
+      {
+        "type": "abstract_3d_geometry",
+        "url": "https://images.pexels.com/photos/12939554/pexels-photo-12939554.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "usage": "Atmospheric backdrop accent in case study cards or about section with subtle multiply blend"
+      },
+      {
+        "type": "abstract_composition",
+        "url": "https://images.pexels.com/photos/29237420/pexels-photo-29237420.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "usage": "Editorial visual accent for Creative Brand Growth illustration"
+      }
+    ]
+  },
+  "motion_and_interactions": {
+    "smooth_scroll": "Lenis smooth scroll integration (window or custom wrapper)",
+    "hero_reveal": "Masked line-by-line staggered upward text entrance using motion/react",
+    "card_hover": "Transform lift -translate-y-1.5, subtle glow border transition (border-orange-500/40 or border-blue-500/40), box-shadow elevation",
+    "interactive_seo_visual": "Animated SVG graph with dynamic stroke-dashoffset drawing paths, floating keyword badges that react on hover, and pulsing node beacons",
+    "button_interactions": "Coral CTA with active scale-98, subtle inner shine transition, accessible focus rings",
+    "faq_toggle": "Smooth accordion height transition with rotating plus/minus icon"
+  },
+  "accessibility_and_compliance": {
+    "wcag_standards": "All text pairings verified >= 4.5:1 contrast ratio against respective light or dark backgrounds. Button text #FFFFFF on #FF5A36 has 4.52:1 contrast ratio.",
+    "keyboard_nav": "Full keyboard accessibility on all accordion items, service modal triggers, contact form inputs, and navigation links with distinct focus-visible rings (focus-visible:ring-2 focus-visible:ring-orange-500).",
+    "reduced_motion": "Wrap animations with prefers-reduced-motion queries or framer-motion respects reduced motion preference.",
+    "test_attributes": "Every interactive button, link, accordion header, form field, and metric container MUST have descriptive data-testid attributes (e.g., data-testid='hero-cta-primary', data-testid='service-card-technical-seo', data-testid='contact-form-submit-button')."
+  },
+  "component_architecture": {
+    "App_shell": "/app/frontend/src/App.tsx",
+    "CSS_entry": "/app/frontend/src/index.css",
+    "pages": [
+      {
+        "route": "/",
+        "path": "/app/frontend/src/pages/Home.tsx",
+        "description": "Main single-page high-converting landing page containing all 10 distinct sections in alternating dark/light rhythm"
+      }
+    ],
+    "components": [
+      {
+        "name": "Header",
+        "path": "/app/frontend/src/components/landing/Header.tsx",
+        "description": "Sticky compacting header with Branding Amigos logo, navigation links, primary orange CTA button, and responsive mobile drawer menu."
+      },
+      {
+        "name": "HeroSection",
+        "path": "/app/frontend/src/components/landing/HeroSection.tsx",
+        "description": "Dark luxury hero with editorial serif heading ('Turn Search Visibility Into Business Growth'), value proposition, dual CTAs, credibility bar, and right-side interactive animated SEO growth telemetry visual."
+      },
+      {
+        "name": "ServicesSection",
+        "path": "/app/frontend/src/components/landing/ServicesSection.tsx",
+        "description": "Light section with 8 distinct service cards: SEO Strategy & Consulting, Technical SEO, On-Page SEO, Content Strategy & SEO Content, Local SEO, Link Building & Digital PR, Keyword Research & Competitor Analysis, SEO Audits. Includes interactive dialog modal for detailed deliverables."
+      },
+      {
+        "name": "WhyUsSection",
+        "path": "/app/frontend/src/components/landing/WhyUsSection.tsx",
+        "description": "Dark section featuring 4 high-impact feature blocks highlighting strategic rigor, technical supremacy, editorial quality, and transparent business ROI."
+      },
+      {
+        "name": "ProcessSection",
+        "path": "/app/frontend/src/components/landing/ProcessSection.tsx",
+        "description": "Light section with 5-step numbered growth blueprint (01 Audit & Intelligence -> 02 Architectural Alignment -> 03 Semantic Strategy -> 04 Authority Acceleration -> 05 Performance Compounding)."
+      },
+      {
+        "name": "ResultsSection",
+        "path": "/app/frontend/src/components/landing/ResultsSection.tsx",
+        "description": "Dark section featuring 4 high-impact metric cards with honest non-fabricated baseline format, ROI metrics framing, and methodology breakdown."
+      },
+      {
+        "name": "CaseStudiesSection",
+        "path": "/app/frontend/src/components/landing/CaseStudiesSection.tsx",
+        "description": "Light section with 3 editorial case studies (E-commerce SEO, Local Business SEO, B2B Enterprise SEO) structured by Challenge / Strategy / Result with data badges."
+      },
+      {
+        "name": "AboutSection",
+        "path": "/app/frontend/src/components/landing/AboutSection.tsx",
+        "description": "Dark section highlighting the agency's DNA: Where high-concept creative branding meets algorithmic mathematical precision."
+      },
+      {
+        "name": "TestimonialsSection",
+        "path": "/app/frontend/src/components/landing/TestimonialsSection.tsx",
+        "description": "Editorial testimonial showcase with placeholder client quote slots, executive titles, and industry attribution tags (strictly non-fabricated disclaimer)."
+      },
+      {
+        "name": "FaqSection",
+        "path": "/app/frontend/src/components/landing/FaqSection.tsx",
+        "description": "Light section with 8 comprehensive accordion questions covering timeline, ROI, migration safety, content creation, technical fixes, and pricing models."
+      },
+      {
+        "name": "ContactSection",
+        "path": "/app/frontend/src/components/landing/ContactSection.tsx",
+        "description": "High-converting dark contact section with multi-select services checkboxes, budget ranges dropdown, full validation, API submission to FastAPI backend, and direct agency contact details."
+      },
+      {
+        "name": "Footer",
+        "path": "/app/frontend/src/components/landing/Footer.tsx",
+        "description": "Dark luxury footer with Branding Amigos brand identity, structured navigation links, service list, JSON-LD metadata, and social placeholders."
+      },
+      {
+        "name": "AuditModal",
+        "path": "/app/frontend/src/components/landing/AuditModal.tsx",
+        "description": "Quick 'Request Free SEO Audit' modal triggerable from CTAs throughout the site."
+      }
+    ]
+  },
+  "backend_integration": {
+    "api_endpoint": "/api/contact",
+    "method": "POST",
+    "pydantic_model": {
+      "name": "str",
+      "business": "str",
+      "email": "EmailStr",
+      "phone": "Optional[str]",
+      "website": "Optional[str]",
+      "services": "List[str]",
+      "budget": "str",
+      "goals": "str"
+    },
+    "storage": "MongoDB collection 'inquiries' with automated timestamps and status 'new'"
+  },
+  "instructions_to_main_agent": [
+    "Configure /app/frontend/src/index.css with @import for '@fontsource-variable/playfair-display', '@fontsource-variable/dm-sans', '@fontsource-variable/jetbrains-mono'. Setup custom font variables --font-heading and --font-sans.",
+    "Implement the strict alternating dark/light rhythmic structure as specified in the problem statement.",
+    "Build custom SVG/Canvas interactive visual for the Hero section with live animated graph strokes, keyword chips, and organic ranking signals (NO generic corporate stock photos).",
+    "Ensure the official Branding Amigos logo is displayed prominently in the header with accurate styling (black/navy base, blue and white editorial serif, orange/coral flourish).",
+    "Add full validation to the contact form and wire it to FastAPI backend POST /api/contact with rich Sonner toast feedback and error handling.",
+    "Add test IDs (data-testid) to all interactive items: header logo, nav links, primary and secondary CTAs, accordion items, service cards, contact form inputs, submit buttons.",
+    "Embed valid schema.org JSON-LD structured data (Organization, WebSite, FAQPage) into the document head."
+  ]
+}
