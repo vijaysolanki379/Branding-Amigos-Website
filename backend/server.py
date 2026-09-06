@@ -81,24 +81,27 @@ def _send_emails(inquiry: ContactInquiry) -> None:
         "reply_to": inquiry.email,
     })
 
-    confirm_html = (
-        "<div style='font-family:Arial,sans-serif;max-width:560px'>"
-        f"<h2 style='color:#05061A;font-size:18px'>Thanks, {inquiry.name} — we've received your request</h2>"
-        "<p style='font-size:14px;color:#334155;line-height:1.6'>Thank you for reaching out to Branding Amigos. "
-        "We've received your consultation request and our team will review your requirements. "
-        "You can expect to hear from us within one business day.</p>"
-        "<p style='font-size:14px;color:#334155;line-height:1.6'>Prefer to talk right away? "
-        "Reply to this email or call us at +91 79845 68245 (Mon–Fri, 9 AM – 6 PM IST).</p>"
-        "<p style='font-size:12px;color:#64748b;margin-top:24px'>Branding Amigos — SEO &amp; Digital Marketing for Sustainable Growth<br>Ahmedabad, Gujarat, India</p>"
-        "</div>"
-    )
-    resend.Emails.send({
-        "from": sender,
-        "to": [inquiry.email],
-        "subject": "We received your request — Branding Amigos",
-        "html": confirm_html,
-        "reply_to": notify,
-    })
+    if os.environ.get("SEND_ENQUIRER_CONFIRMATION", "").lower() == "true":
+        confirm_html = (
+            "<div style='font-family:Arial,sans-serif;max-width:560px'>"
+            f"<h2 style='color:#05061A;font-size:18px'>Thanks, {inquiry.name} — we've received your request</h2>"
+            "<p style='font-size:14px;color:#334155;line-height:1.6'>Thank you for reaching out to Branding Amigos. "
+            "We've received your consultation request and our team will review your requirements. "
+            "You can expect to hear from us within one business day.</p>"
+            "<p style='font-size:14px;color:#334155;line-height:1.6'>Prefer to talk right away? "
+            "Reply to this email or call us at +91 79845 68245 (Mon–Fri, 9 AM – 6 PM IST).</p>"
+            "<p style='font-size:12px;color:#64748b;margin-top:24px'>Branding Amigos — SEO &amp; Digital Marketing for Sustainable Growth<br>Ahmedabad, Gujarat, India</p>"
+            "</div>"
+        )
+        resend.Emails.send({
+            "from": sender,
+            "to": [inquiry.email],
+            "subject": "We received your request — Branding Amigos",
+            "html": confirm_html,
+            "reply_to": notify,
+        })
+    else:
+        logger.info("Enquirer confirmation skipped — enable SEND_ENQUIRER_CONFIRMATION after verifying a sender domain in Resend")
 
 
 @api_router.get("/")

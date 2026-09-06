@@ -35,9 +35,8 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Browser pass (public URL, desktop + 390px mobile): hero, services dialog, FAQ accordion, form submit + success toast, mobile menu, 0px horizontal overflow.
 
 ## Known gaps / not active
-- Resend email notifications: the code is fully wired (POST /api/contact sends an HTML notification to brandingamigos@gmail.com via `asyncio.to_thread` when RESEND_API_KEY exists) but no key is present in the pod environment yet — enquiries are stored, email is skipped (logged). Auto-activates when the managed key lands in backend/.env; no code change needed.
-- Social links are `#` placeholders by design.
-- Case studies/testimonials/metrics are honest placeholders awaiting real client data.
+- Enquirer confirmation emails: OFF until the sender domain (brandingamigos.com) is verified in Resend (test mode only delivers to the account-owner address). Admin notifications ARE live to vijaysolanki379@gmail.com.
+- Social links live; case studies/testimonials/metrics remain honest placeholders (sections removed from homepage for now).
 
 ## Implemented (2026-09)
 - Email alerts: Resend notification path implemented per playbook (SENDER_EMAIL=onboarding@resend.dev, NOTIFY_EMAIL in .env, reply_to = enquirer). Pending platform key.
