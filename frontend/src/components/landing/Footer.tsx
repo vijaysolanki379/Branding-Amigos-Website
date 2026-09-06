@@ -21,10 +21,10 @@ const FOOTER_SERVICES = [
 ];
 
 const SOCIALS = [
-  { label: "LinkedIn" },
-  { label: "Instagram" },
-  { label: "Facebook" },
-  { label: "X" },
+  { label: "LinkedIn", url: "https://www.linkedin.com/company/branding-amigos/" },
+  { label: "Instagram", url: "https://www.instagram.com/brandingamigos/" },
+  { label: "Facebook", url: "https://www.facebook.com/brandingamigos" },
+  { label: "X", url: "https://twitter.com/brandingamigos" },
 ];
 
 export function Footer() {
@@ -50,9 +50,11 @@ export function Footer() {
               {SOCIALS.map((social) => (
                 <a
                   key={social.label}
-                  href="#"
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   data-testid={`social-${social.label.toLowerCase()}`}
-                  aria-label={`Branding Amigos on ${social.label} (link coming soon)`}
+                  aria-label={`Branding Amigos on ${social.label}`}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-[#8B93B8] transition-colors hover:border-[#FF5A36]/60 hover:text-[#FF5A36]"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden>

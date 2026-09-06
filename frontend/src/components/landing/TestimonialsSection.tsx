@@ -8,7 +8,7 @@ export function TestimonialsSection() {
     <section id="testimonials" data-testid="testimonials-section" className="bg-[#F5F5F7] py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHead
-          index="07"
+          index="05"
           label="TESTIMONIALS"
           center
           title={<>What Clients <em className="italic text-[#3535D6]">Will Say</em></>}

@@ -7,8 +7,6 @@ import { Marquee } from "@/components/landing/Marquee";
 import { ServicesSection } from "@/components/landing/ServicesSection";
 import { WhyUsSection } from "@/components/landing/WhyUsSection";
 import { ProcessSection } from "@/components/landing/ProcessSection";
-import { ResultsSection } from "@/components/landing/ResultsSection";
-import { CaseStudiesSection } from "@/components/landing/CaseStudiesSection";
 import { AboutSection } from "@/components/landing/AboutSection";
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { FaqSection } from "@/components/landing/FaqSection";
@@ -51,8 +49,6 @@ export default function Home() {
         <ServicesSection />
         <WhyUsSection />
         <ProcessSection />
-        <ResultsSection />
-        <CaseStudiesSection />
         <AboutSection />
         <TestimonialsSection />
         <FaqSection />

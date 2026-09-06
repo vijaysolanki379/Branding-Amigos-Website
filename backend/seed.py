@@ -77,6 +77,76 @@ Broken internal links waste crawl budget and frustrate visitors. Submit an XML s
 
 Run through these checks in order — the earlier items can block the later ones. If you would rather have a professional set of eyes on it, our SEO audit covers all of this and more, with a prioritised action plan you can act on immediately.""",
     },
+    {
+        "title": "Local SEO Checklist: How Small Businesses Get Found on Google",
+        "excerpt": "Most local customers start with a search. This practical checklist covers the essentials that help small businesses show up — and get chosen — in local results.",
+        "tags": ["Local SEO"],
+        "author": "Branding Amigos",
+        "cover": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/0dfabac0214f0efc42568aefe96590eb6835a6be80c292032229bf076be370e0.jpeg",
+        "meta_title": "Local SEO Checklist for Small Businesses | Branding Amigos",
+        "meta_description": "A practical local SEO checklist: Google Business Profile, citations, reviews, and local pages — the essentials that help small businesses get found on Google.",
+        "focus_keyword": "local seo checklist",
+        "content": """When someone nearby searches for what you sell, your business either shows up or it does not. Local SEO is the work that decides which. This checklist covers the essentials, in the order we tackle them for clients.
+
+## 1. Claim and complete your Google Business Profile
+
+Your Google Business Profile is often the first thing a local customer sees — before your website. Claim it, verify it, and complete every field: categories, services, opening hours, photos, and a clear description of what you do. Keep it updated; an active profile outperforms a neglected one.
+
+## 2. Keep your name, address, and phone number consistent
+
+Search engines cross-check your business details across directories, maps, and your own website. If your phone number or address differs from place to place, trust erodes. Pick one format and use it everywhere — website footer, contact page, and every listing.
+
+## 3. Earn reviews and respond to them
+
+Reviews influence both rankings and decisions. Ask happy customers for honest reviews, make it easy with a direct link, and respond to every review — including the difficult ones. Never buy reviews; the short-term gain is not worth the long-term risk.
+
+## 4. Build pages for the areas you serve
+
+If you serve multiple locations, a single generic contact page will not rank for all of them. Create a genuinely useful page for each area: what you offer there, local proof, directions, and frequently asked questions. Thin, copy-pasted location pages do more harm than good.
+
+## 5. Publish content that answers local questions
+
+People search for answers before they search for providers. Guides, pricing explainers, and how-to articles tied to your area build visibility and trust at the same time — and give other local sites a reason to link to you.
+
+## 6. Measure what matters
+
+Track calls, direction requests, and enquiries from your Business Profile, plus organic traffic to your local pages. Rankings are a signal, not the goal — the goal is customers walking through your door.
+
+If you would like this checklist applied to your business, request a free consultation and we will review your local visibility together.""",
+    },
+    {
+        "title": "Content That Ranks: How to Plan SEO Content Without Guesswork",
+        "excerpt": "Publishing more content is not a strategy. Here's how to choose topics with real search demand and turn them into pages that attract qualified visitors.",
+        "tags": ["Content Strategy"],
+        "author": "Branding Amigos",
+        "cover": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/098d4b874d2fbaaffc203b626d8daae76b3d9fb27f0df2742db322856f3d883f.jpeg",
+        "meta_title": "How to Plan SEO Content That Ranks | Branding Amigos",
+        "meta_description": "Stop guessing what to write. Learn how to plan SEO content around real search demand, intent, and topical authority — so every page earns its place.",
+        "focus_keyword": "seo content strategy",
+        "content": """Most business blogs fail quietly. Not because the writing is bad, but because the topics were chosen by guesswork. Here is the process we use to plan content that actually earns search traffic.
+
+## Start from demand, not ideas
+
+A topic you find interesting and a topic people search for are two different things. Before anything is written, check that real people are searching for it: look at search volumes, autocomplete suggestions, and the questions customers already ask you. No demand means no traffic, no matter how good the article is.
+
+## Map the intent behind each search
+
+Two people typing similar phrases can want completely different things. Someone searching "what is technical SEO" wants to learn; someone searching "technical SEO audit services" wants to hire. Match your page to the intent — educational content for learners, service pages for buyers — or you will rank for neither.
+
+## Build clusters, not isolated posts
+
+One article on a topic is a visitor; ten connected articles are an authority. Choose a small number of core topics close to your services, then cover them thoroughly: a main guide supported by focused articles that link to each other. Search engines reward this depth, and readers stay longer.
+
+## Write from a brief, not a blank page
+
+Every piece should start with a short brief: the target search, the intent, the questions to answer, and the related pages to link to. Briefs keep content focused on what searchers need rather than what the writer feels like saying.
+
+## Refresh before you publish something new
+
+Updating an existing page that already has some visibility is often the fastest win in SEO. Review your older content every few months: update facts, strengthen weak sections, and improve titles. A refreshed page can outrank a brand-new one in weeks.
+
+The common thread is simple: decide with evidence, publish with purpose, and improve what you already have. If you want a content plan built for your business, request a free consultation and we will map the opportunities together.""",
+    },
 ]
 
 
@@ -87,6 +157,8 @@ def slugify(title: str) -> str:
 COVERS = {
     "how-long-does-seo-take-an-honest-answer-for-local-businesses": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/d20b54a850a40e9dbcf9ce66c50ed514f28d2ddb381ef47130e37e890cf97ee6.jpeg",
     "technical-seo-basics-7-checks-every-business-website-should-pass": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/13bc270e847a100099f2976cd280c9d1658af1749c26a49189049e2e9cb4f038.jpeg",
+    "local-seo-checklist-how-small-businesses-get-found-on-google": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/0dfabac0214f0efc42568aefe96590eb6835a6be80c292032229bf076be370e0.jpeg",
+    "content-that-ranks-how-to-plan-seo-content-without-guesswork": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/098d4b874d2fbaaffc203b626d8daae76b3d9fb27f0df2742db322856f3d883f.jpeg",
 }
 
 

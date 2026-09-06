@@ -3,7 +3,6 @@ export const NAV_LINKS = [
   { label: "Services", href: "#services" },
   { label: "About", href: "#about" },
   { label: "Process", href: "#process" },
-  { label: "Results", href: "#results" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -37,6 +36,9 @@ export interface PostSummary {
   tags: string[];
   author: string;
   cover: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  focus_keyword: string | null;
   published_at: string;
 }
 

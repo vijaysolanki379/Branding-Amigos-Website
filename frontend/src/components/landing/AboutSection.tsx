@@ -43,7 +43,7 @@ export function AboutSection() {
 
           <div className="lg:col-span-7">
             <SectionHead
-              index="06"
+              index="04"
               label="ABOUT"
               dark
               title={<>Meet <em className="italic text-[#FF5A36]">Branding Amigos</em></>}

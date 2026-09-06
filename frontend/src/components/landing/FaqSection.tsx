@@ -98,7 +98,7 @@ export function FaqSection() {
     <section id="faq" data-testid="faq-section" className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHead
-          index="08"
+          index="06"
           label="FAQ"
           center
           title={<>Frequently Asked <em className="italic text-[#3535D6]">SEO Questions</em></>}

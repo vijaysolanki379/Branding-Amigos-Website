@@ -45,7 +45,12 @@ Build a modern, premium, high-converting single-page website for "Branding Amigo
 - Insights blog: posts collection, GET /api/posts + /api/posts/{slug} (public), POST /api/posts (admin-key); /insights list + /insights/:slug article pages with per-article title/meta/BlogPosting JSON-LD; homepage Insights preview section (index 09, contact renumbered 10); 2 seeded original articles; Admin page now has tabs (Enquiries + Publish article form).
 - Header/footer links work across subpages (hrefFor prefix + on-load hash scroll on Home); header is solid dark on all subpages so the transparent logo stays visible.
 
-## Implemented (2026-09, batch 2)
+## Implemented (2026-09, batch 3)
+- Results and Case Studies sections removed from the homepage (components kept on disk for future re-add); "Results" removed from nav; section numbering re-sequenced 01–08.
+- Dedicated blog manager at /admin/blog: list/edit/publish articles with SEO parameters (meta title 60-char guide, meta description 160-char guide, focus keyword). Backend: PostUpdate model + PUT /api/posts/{id} (slug stays stable on edit). InsightPost applies meta_title/meta_description/focus_keyword (keywords meta) when set. Old ArticlePublisher component removed; /admin now links to the blog manager.
+- Real social URLs live in footer (LinkedIn /company/branding-amigos, Instagram, Facebook, X/Twitter — new tab, noopener).
+- Dual emails on form submit: admin notification to brandingamigos@gmail.com + branded confirmation email to the enquirer (reply_to set both ways). Still gated on RESEND_API_KEY — not present in pod env; auto-activates when the managed key lands.
+- 2 more articles seeded with covers + SEO params (Local SEO Checklist, Content That Ranks) — 4 total, homepage grid shows 3.
 - Logo background made transparent (background-estimation alpha matte, artwork untouched): /public/branding-amigos-logo-transparent.png + branding-amigos-logo-mark.png (used in header/footer/mobile). Script: scripts/make_logo_transparent.py.
 - Article covers: `cover` field on posts, generated abstract brand covers on both seeded articles, shown on homepage cards, /insights cards, and article hero; per-article og:image + BlogPosting image set for social shares; optional cover URL field in the admin publish form.
 - Enquiry status tracking: PATCH /api/contact/{id} (admin-key, status: new/contacted/closed) + status badge and "Mark as" buttons on each enquiry in /admin.

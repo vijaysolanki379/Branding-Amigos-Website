@@ -47,20 +47,27 @@ export default function InsightPost() {
   useEffect(() => {
     if (!post) return;
     const prevTitle = document.title;
-    document.title = `${post.title} | Branding Amigos`;
+    document.title = post.meta_title || `${post.title} | Branding Amigos`;
     const meta = document.querySelector('meta[name="description"]');
     const prevDesc = meta?.getAttribute("content") ?? null;
-    meta?.setAttribute("content", post.excerpt);
+    meta?.setAttribute("content", post.meta_description || post.excerpt);
     const ogImage = document.querySelector('meta[property="og:image"]');
     const prevOg = ogImage?.getAttribute("content") ?? null;
     if (post.cover && ogImage) ogImage.setAttribute("content", post.cover);
+    let keywords: HTMLMetaElement | null = null;
+    if (post.focus_keyword) {
+      keywords = document.createElement("meta");
+      keywords.name = "keywords";
+      keywords.content = post.focus_keyword;
+      document.head.appendChild(keywords);
+    }
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       headline: post.title,
-      description: post.excerpt,
+      description: post.meta_description || post.excerpt,
       datePublished: post.published_at,
       ...(post.cover ? { image: post.cover } : {}),
       author: { "@type": "Organization", name: post.author },
@@ -71,6 +78,7 @@ export default function InsightPost() {
       document.title = prevTitle;
       if (meta && prevDesc) meta.setAttribute("content", prevDesc);
       if (ogImage && prevOg) ogImage.setAttribute("content", prevOg);
+      if (keywords) keywords.remove();
       script.remove();
     };
   }, [post]);

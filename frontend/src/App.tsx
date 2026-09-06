@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "@/pages/Home";
 import Admin from "@/pages/Admin";
+import BlogManager from "@/pages/BlogManager";
 import Insights from "@/pages/Insights";
 import InsightPost from "@/pages/InsightPost";
 import Privacy from "@/pages/Privacy";
@@ -11,6 +12,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/admin/blog" element={<BlogManager />} />
       <Route path="/insights" element={<Insights />} />
       <Route path="/insights/:slug" element={<InsightPost />} />
       <Route path="/privacy" element={<Privacy />} />

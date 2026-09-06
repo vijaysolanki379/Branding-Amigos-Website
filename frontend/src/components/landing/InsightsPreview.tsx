@@ -23,7 +23,7 @@ export function InsightsPreview() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-8">
           <SectionHead
-            index="09"
+            index="07"
             label="INSIGHTS"
             title={<>SEO Insights &amp; <em className="italic text-[#3535D6]">Growth Notes</em></>}
             sub="Practical, honest writing on search, visibility, and digital growth — the same thinking we apply to client work."

@@ -49,9 +49,12 @@ class ContactInquiry(ContactInquiryCreate):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
-def _send_notification(inquiry: ContactInquiry) -> None:
+def _send_emails(inquiry: ContactInquiry) -> None:
     import resend
     resend.api_key = os.environ["RESEND_API_KEY"]
+    sender = os.environ.get("SENDER_EMAIL", "onboarding@resend.dev")
+    notify = os.environ.get("NOTIFY_EMAIL", "brandingamigos@gmail.com")
+
     rows = "".join(
         f"<tr><td style='padding:7px 14px;color:#64748b;font-size:13px;white-space:nowrap'>{label}</td>"
         f"<td style='padding:7px 14px;font-size:13px;color:#0f172a'>{value}</td></tr>"
@@ -66,18 +69,37 @@ def _send_notification(inquiry: ContactInquiry) -> None:
             ("Goals", inquiry.goals),
         ]
     )
-    html = (
+    notify_html = (
         "<div style='font-family:Arial,sans-serif;max-width:560px'>"
         "<h2 style='color:#05061A;font-size:18px'>New consultation request — Branding Amigos</h2>"
         f"<table style='border-collapse:collapse;border:1px solid #e2e8f0'>{rows}</table>"
         "</div>"
     )
     resend.Emails.send({
-        "from": os.environ.get("SENDER_EMAIL", "onboarding@resend.dev"),
-        "to": [os.environ.get("NOTIFY_EMAIL", "brandingamigos@gmail.com")],
+        "from": sender,
+        "to": [notify],
         "subject": f"New consultation request — {inquiry.name}",
-        "html": html,
+        "html": notify_html,
         "reply_to": inquiry.email,
+    })
+
+    confirm_html = (
+        "<div style='font-family:Arial,sans-serif;max-width:560px'>"
+        f"<h2 style='color:#05061A;font-size:18px'>Thanks, {inquiry.name} — we've received your request</h2>"
+        "<p style='font-size:14px;color:#334155;line-height:1.6'>Thank you for reaching out to Branding Amigos. "
+        "We've received your consultation request and our team will review your requirements. "
+        "You can expect to hear from us within one business day.</p>"
+        "<p style='font-size:14px;color:#334155;line-height:1.6'>Prefer to talk right away? "
+        "Reply to this email or call us at +91 79845 68245 (Mon–Fri, 9 AM – 6 PM IST).</p>"
+        "<p style='font-size:12px;color:#64748b;margin-top:24px'>Branding Amigos — SEO &amp; Digital Marketing for Sustainable Growth<br>Ahmedabad, Gujarat, India</p>"
+        "</div>"
+    )
+    resend.Emails.send({
+        "from": sender,
+        "to": [inquiry.email],
+        "subject": "We received your request — Branding Amigos",
+        "html": confirm_html,
+        "reply_to": notify,
     })
 
 
@@ -92,9 +114,9 @@ async def create_inquiry(payload: ContactInquiryCreate):
     await db.inquiries.insert_one(inquiry.model_dump())
     if os.environ.get("RESEND_API_KEY"):
         try:
-            await asyncio.to_thread(_send_notification, inquiry)
+            await asyncio.to_thread(_send_emails, inquiry)
         except Exception:
-            logger.exception("Failed to send inquiry notification email")
+            logger.exception("Failed to send inquiry emails")
     else:
         logger.info("RESEND_API_KEY not set — inquiry %s stored without email notification", inquiry.id)
     return inquiry
@@ -134,6 +156,20 @@ class PostCreate(BaseModel):
     tags: List[str] = Field(default_factory=list, max_length=6)
     author: str = Field(default="Branding Amigos", max_length=120)
     cover: Optional[str] = Field(default=None, max_length=600)
+    meta_title: Optional[str] = Field(default=None, max_length=120)
+    meta_description: Optional[str] = Field(default=None, max_length=200)
+    focus_keyword: Optional[str] = Field(default=None, max_length=120)
+
+
+class PostUpdate(BaseModel):
+    title: Optional[str] = Field(default=None, min_length=4, max_length=200)
+    excerpt: Optional[str] = Field(default=None, min_length=10, max_length=400)
+    content: Optional[str] = Field(default=None, min_length=50, max_length=50000)
+    tags: Optional[List[str]] = Field(default=None, max_length=6)
+    cover: Optional[str] = Field(default=None, max_length=600)
+    meta_title: Optional[str] = Field(default=None, max_length=120)
+    meta_description: Optional[str] = Field(default=None, max_length=200)
+    focus_keyword: Optional[str] = Field(default=None, max_length=120)
 
 
 class Post(PostCreate):
@@ -172,6 +208,24 @@ async def create_post(payload: PostCreate, x_admin_key: Optional[str] = Header(d
     except Exception:
         logger.exception("Failed to regenerate sitemap")
     return post
+
+
+@api_router.put("/posts/{post_id}", response_model=Post)
+async def update_post(post_id: str, payload: PostUpdate, x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
+    updates = payload.model_dump(exclude_unset=True)
+    if not updates:
+        raise HTTPException(status_code=400, detail="Nothing to update")
+    doc = await db.posts.find_one_and_update(
+        {"id": post_id},
+        {"$set": updates},
+        projection={"_id": 0},
+        return_document=True,
+    )
+    if not doc:
+        raise HTTPException(status_code=404, detail="Post not found")
+    _normalize_ts(doc, "published_at")
+    return Post(**doc)
 
 
 class InquiryStatusUpdate(BaseModel):
