@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Loader2, Save } from "lucide-react";
 import { AdminTabs } from "@/components/landing/AdminTabs";
-import { apiGet } from "@/lib/api";
+import { ContentImageField } from "@/components/landing/ContentImageField";
+import { API_BASE, apiGet } from "@/lib/api";
 import { CONTENT_DEFAULTS } from "@/lib/content";
 import type { ContentMap } from "@/lib/content";
 import { SERVICES_DETAIL } from "@/lib/services";
@@ -34,7 +35,7 @@ const PAGES: { key: string; label: string; fields: FieldDef[] }[] = [
       { key: "hero_line2", label: "Hero headline — line 2", type: "text" },
       { key: "hero_line3", label: "Hero headline — line 3 (orange highlight)", type: "text" },
       { key: "hero_sub", label: "Hero supporting paragraph", type: "textarea" },
-      { key: "why_image", label: "Why-us section image", type: "image", hint: "Paste any image URL. Leave the default to keep the current artwork." },
+      { key: "why_image", label: "Why-us section image", type: "image" },
       { key: "about_image", label: "About section image", type: "image" },
       ...SEO_FIELDS,
     ],
@@ -81,7 +82,7 @@ const PAGES: { key: string; label: string; fields: FieldDef[] }[] = [
       { key: "intro", label: "Intro paragraph", type: "textarea" as const },
       { key: "included", label: "What's included (one item per line)", type: "list" as const },
       { key: "outcomes", label: "What you can expect (one item per line)", type: "list" as const },
-      { key: "cover", label: "Cover image URL (optional)", type: "image" as const },
+      { key: "cover", label: "Cover image (optional)", type: "image" as const },
       ...[1, 2, 3, 4].flatMap((n): FieldDef[] => [
         { key: `faq${n}_q`, label: `FAQ ${n} — question`, type: "text" },
         { key: `faq${n}_a`, label: `FAQ ${n} — answer`, type: "textarea" },
@@ -113,6 +114,7 @@ export default function ContentManager() {
   const [pageKey, setPageKey] = useState("home");
   const [values, setValues] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const queryClient = useQueryClient();
@@ -153,7 +155,7 @@ export default function ContentManager() {
         const v = values[f.key] ?? "";
         if (v.trim() !== "" && v !== (defaults[f.key] ?? "")) payload[f.key] = v;
       });
-      const res = await fetch(`/api/content/${pageKey}`, {
+      const res = await fetch(`${API_BASE}/content/${pageKey}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "X-Admin-Key": adminKey },
         body: JSON.stringify({ data: payload }),
@@ -174,7 +176,7 @@ export default function ContentManager() {
     setNotice("");
     setError("");
     try {
-      const res = await fetch(`/api/content/${pageKey}`, {
+      const res = await fetch(`${API_BASE}/content/${pageKey}`, {
         method: "DELETE",
         headers: { "X-Admin-Key": adminKey },
       });
@@ -207,6 +209,7 @@ export default function ContentManager() {
             onChange={(e) => setAdminKey(e.target.value)}
             placeholder="Admin key"
             data-testid="content-admin-key-input"
+            disabled={saving || uploading}
             className={FIELD}
           />
         </div>
@@ -219,6 +222,7 @@ export default function ContentManager() {
             id="page-select"
             data-testid="content-page-select"
             value={pageKey}
+            disabled={saving || uploading}
             onChange={(e) => setPageKey(e.target.value)}
             className={`${FIELD} max-w-md appearance-none`}
           >
@@ -230,14 +234,19 @@ export default function ContentManager() {
           </select>
         </div>
 
-        <div data-testid="content-form" className="mt-8 space-y-6 rounded-2xl border border-white/10 bg-[#0C1030] p-7">
+        <div data-testid="content-form" className="mt-8 min-w-0 space-y-6 rounded-2xl border border-white/10 bg-[#0C1030] p-4 sm:p-7">
           {isLoading ? (
             <p className="text-sm text-[#8B93B8]">Loading current content…</p>
           ) : (
             page.fields.map((f) => (
-              <div key={f.key}>
+              <div key={`${pageKey}-${f.key}`}>
                 <label htmlFor={`field-${f.key}`} className={LABEL}>{f.label}</label>
-                {f.type === "text" || f.type === "image" ? (
+                {f.type === "image" ? (
+                  <ContentImageField fieldKey={f.key} label={f.label} value={values[f.key] ?? ""}
+                    adminKey={adminKey} disabled={saving || uploading} inputClassName={FIELD}
+                    onUploading={setUploading}
+                    onChange={(value) => { setNotice(""); setValues((v) => ({ ...v, [f.key]: value })); }} />
+                ) : f.type === "text" ? (
                   <input
                     id={`field-${f.key}`}
                     data-testid={`content-field-${f.key}`}
@@ -256,9 +265,6 @@ export default function ContentManager() {
                   />
                 )}
                 {f.hint && <p className="mt-1.5 text-xs text-[#5B6280]">{f.hint}</p>}
-                {f.type === "image" && values[f.key] && (
-                  <img src={values[f.key]} alt={`Preview of ${f.label}`} className="mt-3 h-28 rounded-lg border border-white/10 object-cover" />
-                )}
               </div>
             ))
           )}
@@ -266,7 +272,7 @@ export default function ContentManager() {
             <button
               type="button"
               onClick={save}
-              disabled={saving || isLoading || !adminKey}
+              disabled={saving || uploading || isLoading || !adminKey}
               data-testid="content-save-button"
               className="inline-flex items-center gap-2 rounded-lg bg-[#FF5A36] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#FF3E14] disabled:opacity-50"
             >
@@ -276,7 +282,7 @@ export default function ContentManager() {
             <button
               type="button"
               onClick={reset}
-              disabled={saving || isLoading || !adminKey}
+              disabled={saving || uploading || isLoading || !adminKey}
               data-testid="content-reset-button"
               className="inline-flex items-center gap-2 rounded-lg border border-white/15 px-6 py-3 text-sm font-semibold text-[#C6CCDF] transition-colors hover:border-[#FF5A36]/60 hover:text-white disabled:opacity-50"
             >

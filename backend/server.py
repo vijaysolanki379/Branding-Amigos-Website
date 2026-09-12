@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, APIRouter, Header, HTTPException
+from fastapi import FastAPI, APIRouter, File, Header, HTTPException, UploadFile
 from pydantic import BaseModel, EmailStr, Field
 from starlette.middleware.cors import CORSMiddleware
 
@@ -16,6 +16,8 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 from lib.db import client, db, ensure_indexes
+from lib.media import UploadedImage, read_image, upload_image
+from lib.storage import init_storage
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("branding-amigos")
@@ -24,6 +26,11 @@ logger = logging.getLogger("branding-amigos")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.index_task = asyncio.create_task(ensure_indexes())
+    try:
+        await init_storage()
+        logger.info("Image storage initialized")
+    except Exception:
+        logger.warning("Image storage initialization unavailable; uploads will retry on demand")
     yield
     client.close()
 
@@ -335,6 +342,17 @@ async def update_inquiry_status(
         raise HTTPException(status_code=404, detail="Enquiry not found")
     _normalize_ts(doc, "created_at")
     return ContactInquiry(**doc)
+
+
+@api_router.post("/media/upload", response_model=UploadedImage, status_code=201)
+async def create_media(file: UploadFile = File(...), x_admin_key: Optional[str] = Header(default=None)):
+    _check_admin(x_admin_key)
+    return await upload_image(file)
+
+
+@api_router.get("/media/{media_id}")
+async def get_media(media_id: uuid.UUID):
+    return await read_image(media_id)
 
 
 app.include_router(api_router)

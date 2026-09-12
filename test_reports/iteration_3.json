@@ -1,0 +1,47 @@
+{
+  "summary": "Executed full media-storage verification (backend + frontend) against public preview URL: real image uploads (JPG/PNG/WebP/GIF), rejection matrix, Mongo persistence checks, object-storage fresh-session read, admin CMS upload flows, public render verification, responsive checks, and regression commands (pytest/typecheck/build). Main unresolved issue: media GET cache header at public URL is overridden to no-store.",
+  "backend_issues": {
+    "critical": [
+      {
+        "endpoint": "GET /api/media/{uuid}",
+        "issue": "At the public endpoint, Cache-Control is `no-store, no-cache, must-revalidate` instead of expected long-lived cache (`public, max-age=31536000, immutable`). Backend code sets immutable cache, but response observed externally is rewritten. This caused 4/4 format tests to fail on cache-header assertion.",
+        "priority": "HIGH"
+      }
+    ],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_media_storage_integration.py",
+    "/app/backend/tests/test_cms_content.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Fix media caching policy at public edge/proxy so GET /api/media/{uuid} preserves immutable cache intent instead of no-store.",
+    "After cache fix, rerun /app/backend/tests/test_media_storage_integration.py to confirm all media assertions pass."
+  ],
+  "critical_code_review_comments": [
+    "backend/lib/media.py correctly sets Cache-Control immutable, nosniff, and CSP headers; however, observed public response header indicates downstream proxy/CDN override. Validate ingress/edge header policy for /api/media/*.",
+    "Security/privacy checks passed: upload API response is JSON-safe and does not leak storage_key, storage_path, or internal session values.",
+    "Mongo media metadata shape is correct (uuid id, storage_path canonical, is_deleted=false on create, UTC timestamp)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_media_storage_integration.py",
+    "/app/tests/generate_test_images.py",
+    "/app/tests/soft_delete_media_records.py",
+    "/app/test_reports/iteration_3.json"
+  ],
+  "success_rate": {
+    "backend": "86.7% (26/30 pytest passing)",
+    "frontend": "96% (core media CMS/admin/public flows passing; keyboard-native file chooser not fully automated)"
+  },
+  "seed_data_creation": "Created temporary media uploads during tests; all known test records were soft-deleted by setting media.is_deleted=true. Content overrides were restored and /api/content is {}.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend/media tests added in /app/backend/tests/test_media_storage_integration.py cover: 201 upload metadata, 401/400/413/415 rejections, unknown uuid 404, DB persistence, and fresh storage init read. Current only failing assertion is external Cache-Control mismatch (public endpoint returns no-store). Frontend upload flow verified for home why_image/about_image and services/ai-seo cover: upload/save/reload/public render/manual URL edit/reset all passed. Responsive checks passed at 390/768/1024/1440 with no horizontal overflow. typecheck/build both pass. /api/content restored to {} at end.",
+  "rca of the issue": "RCA: Cache-policy failure is likely outside application route logic. read_image() sets `Cache-Control: public, max-age=31536000, immutable`, but external responses consistently show `Cache-Control: no-store, no-cache, must-revalidate` while other custom headers (nosniff/CSP) survive. This pattern indicates ingress/edge/proxy middleware rewriting Cache-Control for API routes. Mitigation: update edge rule for /api/media/* to preserve app Cache-Control (or set explicit override to immutable). Reproduction: upload any valid image -> GET returned /api/media/{id} -> inspect headers at preview domain."
+}
