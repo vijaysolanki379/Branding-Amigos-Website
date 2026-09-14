@@ -34,9 +34,8 @@ if (!hotReloadDisabled) {
 }
 
 // https://vite.dev/config/
-export default defineConfig(async ({ mode }) => {
+export default defineConfig(async () => {
   const emergentOverlay = await loadEmergentOverlay();
-  const env = loadEnv(mode, process.cwd(), "");
   return {
     plugins: [
       react(),
