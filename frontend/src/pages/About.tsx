@@ -24,7 +24,7 @@ const VALUES = [
 ];
 
 const WAVES_IMG =
-  "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/aab79c92b245398704b3f3a7079f85b90c33f2909490c42053398c2ab5f3d864.jpeg";
+  "https://res.cloudinary.com/nufnhl9h/image/upload/v1789396988/branding-amigos/migrated/home-about-image.jpg";
 
 export default function About() {
   useEffect(() => {
