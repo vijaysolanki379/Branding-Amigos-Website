@@ -4,38 +4,37 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { visualEdits } from "@emergentbase/visual-edits/vite";
 
-// Supervisor exports DISABLE_HOT_RELOAD=true when the platform sets ENABLE_RELOAD=false.
 const hotReloadDisabled = process.env.DISABLE_HOT_RELOAD === "true";
+const isProduction = process.env.NODE_ENV === "production";
 
-// Visual Edits (x-* JSX tagging, overlay, /edit-file endpoint) is dev-server-only by
-// default (apply: serve); escape hatch mirrors DISABLE_HOT_RELOAD.
-const visualEditsDisabled = process.env.DISABLE_VISUAL_EDITS === "true";
+// Emergent preview tooling is disabled for production deployments.
+const visualEditsDisabled =
+  isProduction || process.env.DISABLE_VISUAL_EDITS === "true";
+const emergentOverlayDisabled =
+  isProduction || process.env.DISABLE_EMERGENT_OVERLAY === "true";
 
-// Branded error overlay (build + runtime errors); escape hatch mirrors the two above.
-const emergentOverlayDisabled = process.env.DISABLE_EMERGENT_OVERLAY === "true";
-
-// Fails open: a broken overlay package must degrade to "no overlay" (Vite's own overlay
-// takes over), never to "no dev server". Never let a preview aid take the app down.
 async function loadEmergentOverlay() {
   if (emergentOverlayDisabled) return null;
+
   try {
     const mod = await import("@emergentbase/overlay/vite");
     return mod.emergentOverlay();
   } catch (e) {
-    console.warn("[emergent-overlay] plugin failed to load; using Vite's overlay instead:", e instanceof Error ? e.message : e);
+    console.warn(
+      "[emergent-overlay] plugin failed to load; using Vite's overlay instead:",
+      e instanceof Error ? e.message : e,
+    );
     return null;
   }
 }
 
-// Pod inotify quota is node-shared and routinely exhausted; native fs.watch EMFILEs at
-// boot. Polling is the load-bearing default (set before Vite evaluates the config).
 if (!hotReloadDisabled) {
   process.env.CHOKIDAR_USEPOLLING = "true";
 }
 
-// https://vite.dev/config/
 export default defineConfig(async () => {
   const emergentOverlay = await loadEmergentOverlay();
+
   return {
     plugins: [
       react(),
@@ -43,13 +42,13 @@ export default defineConfig(async () => {
       ...(visualEditsDisabled ? [] : [visualEdits()]),
       ...(emergentOverlay ? [emergentOverlay] : []),
     ],
+
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    // Every shipped dep, pre-bundled up front. Vite discovers deps lazily, so the first
-    // import outside the initial graph would trigger a re-optimize + reload mid-session.
+
     optimizeDeps: {
       include: [
         "@base-ui/react/button",
@@ -79,19 +78,21 @@ export default defineConfig(async () => {
         "tailwind-merge",
       ],
     },
+
     server: {
       host: true,
       port: 3000,
       allowedHosts: true,
-      // Preview probe + /edit-file are cross-origin from the Emergent tab; Vite defaults to localhost-only CORS.
       cors: true,
-      // No hmr.clientPort override: Vite infers the WS target from window.location, which
-      // is correct on both localhost:3000 (smoke) and the https/:443 preview proxy.
-      // Build-error rendering: emergent-overlay when it loaded, else Vite's own overlay.
-      hmr: hotReloadDisabled ? false : { overlay: !emergentOverlay },
-      watch: hotReloadDisabled ? null : { usePolling: true, interval: 300 },
-      // The /api proxy convention: frontend code calls relative /api/*, never an
-      // absolute backend URL. Target is the FastAPI dev server (supervisor: backend).
+
+      hmr: hotReloadDisabled
+        ? false
+        : { overlay: !emergentOverlay },
+
+      watch: hotReloadDisabled
+        ? null
+        : { usePolling: true, interval: 300 },
+
       proxy: {
         "/api": {
           target: "http://localhost:8001",
