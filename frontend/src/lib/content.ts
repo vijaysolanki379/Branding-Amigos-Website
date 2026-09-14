@@ -25,9 +25,9 @@ export const CONTENT_DEFAULTS: ContentMap = {
     hero_sub:
       "Branding Amigos combines SEO, social media, paid ads, content, and AI-powered automation to help businesses become more visible, attract qualified customers, and grow online.",
     why_image:
-      "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/54a8bd9d260c3ae3dc22ad554a188b6a2e03468dc626737fb09356718d52a5e5.jpeg",
+      "https://res.cloudinary.com/nufnhl9h/image/upload/v1789396988/branding-amigos/migrated/home-about-image.jpg",
     about_image:
-      "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/aab79c92b245398704b3f3a7079f85b90c33f2909490c42053398c2ab5f3d864.jpeg",
+      "https://res.cloudinary.com/nufnhl9h/image/upload/v1789396988/branding-amigos/migrated/home-about-image.jpg",
     meta_title: "Branding Amigos | SEO & Digital Marketing Agency",
     meta_description:
       "Branding Amigos helps businesses grow organic visibility, qualified traffic, leads, and online revenue through strategic SEO and digital marketing.",
