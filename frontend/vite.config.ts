@@ -37,10 +37,7 @@ if (!hotReloadDisabled) {
 export default defineConfig(async ({ mode }) => {
   const emergentOverlay = await loadEmergentOverlay();
   const env = loadEnv(mode, process.cwd(), "");
-  const backendUrl = process.env.REACT_APP_BACKEND_URL || env.REACT_APP_BACKEND_URL;
-  if (!backendUrl) throw new Error("REACT_APP_BACKEND_URL is required");
   return {
-    define: { "process.env.REACT_APP_BACKEND_URL": JSON.stringify(backendUrl) },
     plugins: [
       react(),
       tailwindcss(),
