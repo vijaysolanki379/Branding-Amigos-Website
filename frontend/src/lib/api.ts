@@ -1,7 +1,8 @@
-// Vite exposes only this explicitly configured public setting, never server secrets.
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
-if (!backendUrl) throw new Error("REACT_APP_BACKEND_URL is required");
-export const API_BASE = `${backendUrl.replace(/\/$/, "")}/api`;
+// Vite exposes only explicitly configured public settings; server secrets stay on the backend.
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+export const API_BASE = backendUrl
+  ? `${backendUrl.replace(/\/$/, "")}/api`
+  : "/api";
 
 // Fields are declared, not constructor parameter properties: tsconfig sets
 // erasableSyntaxOnly, which rejects `constructor(readonly status: number)`.
