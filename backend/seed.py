@@ -119,7 +119,7 @@ If you would like this checklist applied to your business, request a free consul
         "excerpt": "Publishing more content is not a strategy. Here's how to choose topics with real search demand and turn them into pages that attract qualified visitors.",
         "tags": ["Content Strategy"],
         "author": "Branding Amigos",
-        "cover": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/098d4b874d2fbaaffc203b626d8daae76b3d9fb27f0df2742db322856f3d883f.jpeg",
+        "cover": "https://res.cloudinary.com/nufnhl9h/image/upload/v1789397006/branding-amigos/migrated/blog-content-strategy.jpg",
         "meta_title": "How to Plan SEO Content That Ranks | Branding Amigos",
         "meta_description": "Stop guessing what to write. Learn how to plan SEO content around real search demand, intent, and topical authority — so every page earns its place.",
         "focus_keyword": "seo content strategy",
@@ -155,10 +155,10 @@ def slugify(title: str) -> str:
 
 
 COVERS = {
-    "how-long-does-seo-take-an-honest-answer-for-local-businesses": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/d20b54a850a40e9dbcf9ce66c50ed514f28d2ddb381ef47130e37e890cf97ee6.jpeg",
-    "technical-seo-basics-7-checks-every-business-website-should-pass": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/13bc270e847a100099f2976cd280c9d1658af1749c26a49189049e2e9cb4f038.jpeg",
-    "local-seo-checklist-how-small-businesses-get-found-on-google": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/0dfabac0214f0efc42568aefe96590eb6835a6be80c292032229bf076be370e0.jpeg",
-    "content-that-ranks-how-to-plan-seo-content-without-guesswork": "https://static.prod-images.emergentagent.com/jobs/e5a87417-a519-4731-9f95-319a1f87e2b8/images/098d4b874d2fbaaffc203b626d8daae76b3d9fb27f0df2742db322856f3d883f.jpeg",
+    "how-long-does-seo-take-an-honest-answer-for-local-businesses": "https://res.cloudinary.com/nufnhl9h/image/upload/v1789396993/branding-amigos/migrated/blog-seo-timeline.jpg",
+    "technical-seo-basics-7-checks-every-business-website-should-pass": "https://res.cloudinary.com/nufnhl9h/image/upload/v1789396997/branding-amigos/migrated/blog-technical-seo.jpg",
+    "local-seo-checklist-how-small-businesses-get-found-on-google": "https://res.cloudinary.com/nufnhl9h/image/upload/v1789397002/branding-amigos/migrated/blog-local-seo.jpg",
+    "content-that-ranks-how-to-plan-seo-content-without-guesswork": "https://res.cloudinary.com/nufnhl9h/image/upload/v1789397006/branding-amigos/migrated/blog-content-strategy.jpg",
 }
 
 
