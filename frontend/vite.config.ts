@@ -2,45 +2,18 @@ import path from "node:path";
 import { defineConfig, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { visualEdits } from "@emergentbase/visual-edits/vite";
 
 const hotReloadDisabled = process.env.DISABLE_HOT_RELOAD === "true";
-const isProduction = process.env.NODE_ENV === "production";
-
-// Emergent preview tooling is disabled for production deployments.
-const visualEditsDisabled =
-  isProduction || process.env.DISABLE_VISUAL_EDITS === "true";
-const emergentOverlayDisabled =
-  isProduction || process.env.DISABLE_EMERGENT_OVERLAY === "true";
-
-async function loadEmergentOverlay() {
-  if (emergentOverlayDisabled) return null;
-
-  try {
-    const mod = await import("@emergentbase/overlay/vite");
-    return mod.emergentOverlay();
-  } catch (e) {
-    console.warn(
-      "[emergent-overlay] plugin failed to load; using Vite's overlay instead:",
-      e instanceof Error ? e.message : e,
-    );
-    return null;
-  }
-}
 
 if (!hotReloadDisabled) {
   process.env.CHOKIDAR_USEPOLLING = "true";
 }
 
-export default defineConfig(async () => {
-  const emergentOverlay = await loadEmergentOverlay();
-
+export default defineConfig(() => {
   return {
     plugins: [
       react(),
       tailwindcss(),
-      ...(visualEditsDisabled ? [] : [visualEdits()]),
-      ...(emergentOverlay ? [emergentOverlay] : []),
     ],
 
     resolve: {
@@ -87,7 +60,7 @@ export default defineConfig(async () => {
 
       hmr: hotReloadDisabled
         ? false
-        : { overlay: !emergentOverlay },
+        : true,
 
       watch: hotReloadDisabled
         ? null
