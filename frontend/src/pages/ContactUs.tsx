@@ -66,17 +66,17 @@ export default function ContactUs() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-12">
-          {/* Left side */}
+        <div className="mt-14 grid items-start gap-10 lg:grid-cols-12">
+          {/* LEFT SIDE */}
           <div className="space-y-4 lg:col-span-5">
-            {/* Branding Amigos Logo */}
-            <div className="mb-2 flex h-20 items-center">
+            {/* Logo */}
+            <div className="flex h-[104px] items-center rounded-2xl bg-[#10134A] px-8">
               <img
-                src="/branding-amigos-logo-mark.png"
+                src="/branding-amigos-logo-transparent.png"
                 alt="Branding Amigos"
-                className="h-16 w-auto object-contain object-left"
-                width="166"
-                height="75"
+                className="h-auto w-[190px] object-contain"
+                width="190"
+                height="86"
               />
             </div>
 
@@ -145,7 +145,7 @@ export default function ContactUs() {
             </a>
           </div>
 
-          {/* Right side — Jotform */}
+          {/* RIGHT SIDE — FORM */}
           <div className="lg:col-span-7">
             <Reveal delay={0.1}>
               <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#0C1030]">
@@ -153,7 +153,7 @@ export default function ContactUs() {
                   src="https://form.jotform.com/262764984768076"
                   title="Request Free Consultation"
                   className="block w-full border-0"
-                  style={{ minHeight: 539 }}
+                  style={{ minHeight: 900, height: "900px" }}
                   loading="lazy"
                 />
               </div>
