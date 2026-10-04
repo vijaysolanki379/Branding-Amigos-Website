@@ -25,6 +25,7 @@ const FOOTER_SERVICES = [
 
 export function Footer() {
   const site = usePageContent("site");
+
   const socials = [
     { label: "LinkedIn", url: site.social_linkedin },
     { label: "Instagram", url: site.social_instagram },
@@ -33,11 +34,19 @@ export function Footer() {
   ].filter((s) => s.url);
 
   return (
-    <footer data-testid="site-footer" className="border-t border-white/10 bg-[#030412]">
+    <footer
+      data-testid="site-footer"
+      className="border-t border-white/10 bg-[#030412]"
+    >
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <a href="#home" data-testid="footer-logo" aria-label="Branding Amigos — home">
+          {/* BRAND */}
+          <div className="lg:col-span-4">
+            <a
+              href="#home"
+              data-testid="footer-logo"
+              aria-label="Branding Amigos — home"
+            >
               <img
                 src="/branding-amigos-logo-mark.png"
                 alt="Branding Amigos — SEO & Digital Marketing Agency"
@@ -47,7 +56,11 @@ export function Footer() {
                 className="h-11 w-auto"
               />
             </a>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-[#8B93B8]">{site.footer_tagline}</p>
+
+            <p className="mt-5 max-w-sm text-sm leading-relaxed text-[#8B93B8]">
+              {site.footer_tagline}
+            </p>
+
             <div className="mt-7 flex gap-3">
               {socials.map((social) => (
                 <a
@@ -59,7 +72,12 @@ export function Footer() {
                   aria-label={`Branding Amigos on ${social.label}`}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-[#8B93B8] transition-colors hover:border-[#FF5A36]/60 hover:text-[#FF5A36]"
                 >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-4 w-4"
+                    aria-hidden
+                  >
                     <path d={SOCIAL_PATHS[social.label]} />
                   </svg>
                 </a>
@@ -67,8 +85,12 @@ export function Footer() {
             </div>
           </div>
 
+          {/* NAVIGATION */}
           <nav aria-label="Footer" className="lg:col-span-2">
-            <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-[#6B7394]">Navigate</h3>
+            <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-[#6B7394]">
+              Navigate
+            </h3>
+
             <ul className="mt-5 space-y-3">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
@@ -81,22 +103,26 @@ export function Footer() {
                   </a>
                 </li>
               ))}
-              <li>
-                <a href="/insights" data-testid="footer-nav-insights" className="text-sm text-[#C6CCDF] transition-colors hover:text-white">
-                  Insights
-                </a>
-              </li>
             </ul>
           </nav>
 
-          <div className="lg:col-span-2">
-            <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-[#6B7394]">Services</h3>
-            <ul className="mt-5 space-y-3">
+          {/* SERVICES — TWO COLUMNS */}
+          <div className="lg:col-span-3">
+            <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-[#6B7394]">
+              Services
+            </h3>
+
+            <ul className="mt-5 grid grid-cols-2 gap-x-8 gap-y-3">
               {FOOTER_SERVICES.map((service) => (
                 <li key={service}>
                   <a
-                    href={`/services/${service.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`}
-                    data-testid={`footer-service-${service.toLowerCase().replace(/\s+/g, "-")}`}
+                    href={`/services/${service
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, "-")
+                      .replace(/(^-|-$)/g, "")}`}
+                    data-testid={`footer-service-${service
+                      .toLowerCase()
+                      .replace(/\s+/g, "-")}`}
                     className="text-sm text-[#C6CCDF] transition-colors hover:text-white"
                   >
                     {service}
@@ -106,32 +132,61 @@ export function Footer() {
             </ul>
           </div>
 
+          {/* CONTACT */}
           <div className="lg:col-span-3">
-            <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-[#6B7394]">Contact</h3>
+            <h3 className="font-mono text-[11px] font-medium uppercase tracking-[0.25em] text-[#6B7394]">
+              Contact
+            </h3>
+
             <ul className="mt-5 space-y-3 text-sm text-[#C6CCDF]">
               <li>
-                <a href={`mailto:${site.contact_email}`} data-testid="footer-email" className="transition-colors hover:text-white">
+                <a
+                  href={`mailto:${site.contact_email}`}
+                  data-testid="footer-email"
+                  className="transition-colors hover:text-white"
+                >
                   {site.contact_email}
                 </a>
               </li>
+
               <li>
-                <a href={`tel:${site.contact_phone.replace(/[^+\d]/g, "")}`} data-testid="footer-phone" className="transition-colors hover:text-white">
+                <a
+                  href={`tel:${site.contact_phone.replace(/[^+\d]/g, "")}`}
+                  data-testid="footer-phone"
+                  className="transition-colors hover:text-white"
+                >
                   {site.contact_phone}
                 </a>
               </li>
+
               <li>{site.contact_location}</li>
-              <li className="text-[#8B93B8]">{site.contact_hours}</li>
+
+              <li className="text-[#8B93B8]">
+                {site.contact_hours}
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
-          <p className="text-xs text-[#6B7394]">© 2026 Branding Amigos. All rights reserved.</p>
+          <p className="text-xs text-[#6B7394]">
+            © 2026 Branding Amigos. All rights reserved.
+          </p>
+
           <div className="flex gap-6">
-            <a href="/privacy" data-testid="footer-privacy" className="text-xs text-[#6B7394] transition-colors hover:text-white">
+            <a
+              href="/privacy"
+              data-testid="footer-privacy"
+              className="text-xs text-[#6B7394] transition-colors hover:text-white"
+            >
               Privacy Policy
             </a>
-            <a href="/terms" data-testid="footer-terms" className="text-xs text-[#6B7394] transition-colors hover:text-white">
+
+            <a
+              href="/terms"
+              data-testid="footer-terms"
+              className="text-xs text-[#6B7394] transition-colors hover:text-white"
+            >
               Terms of Service
             </a>
           </div>
