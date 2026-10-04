@@ -13,15 +13,40 @@ export default function ContactUs() {
   useMeta(page.meta_title, page.meta_description);
 
   const info = [
-    { icon: Mail, label: "Email", value: site.contact_email, href: `mailto:${site.contact_email}`, testId: "contact-page-email" },
-    { icon: Phone, label: "Phone", value: site.contact_phone, href: `tel:${site.contact_phone.replace(/[^+\d]/g, "")}`, testId: "contact-page-phone" },
-    { icon: MapPin, label: "Location", value: site.contact_location, testId: "contact-page-location" },
-    { icon: Clock, label: "Business hours", value: site.contact_hours, testId: "contact-page-hours" },
+    {
+      icon: Mail,
+      label: "Email",
+      value: site.contact_email,
+      href: `mailto:${site.contact_email}`,
+      testId: "contact-page-email",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: site.contact_phone,
+      href: `tel:${site.contact_phone.replace(/[^+\d]/g, "")}`,
+      testId: "contact-page-phone",
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: site.contact_location,
+      testId: "contact-page-location",
+    },
+    {
+      icon: Clock,
+      label: "Business hours",
+      value: site.contact_hours,
+      testId: "contact-page-hours",
+    },
   ];
 
   return (
     <PageShell>
-      <div data-testid="contact-page" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div
+        data-testid="contact-page"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+      >
         <div className="max-w-3xl">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.28em] text-[#8B93B8]">
             <span className="text-[#FF5A36]">[</span>{" "}
@@ -42,7 +67,19 @@ export default function ContactUs() {
         </div>
 
         <div className="mt-14 grid gap-10 lg:grid-cols-12">
+          {/* Left side */}
           <div className="space-y-4 lg:col-span-5">
+            {/* Branding Amigos Logo */}
+            <div className="mb-2 flex h-20 items-center">
+              <img
+                src="/branding-amigos-logo-mark.png"
+                alt="Branding Amigos"
+                className="h-16 w-auto object-contain object-left"
+                width="166"
+                height="75"
+              />
+            </div>
+
             {info.map((item) => {
               const Icon = item.icon;
 
@@ -56,6 +93,7 @@ export default function ContactUs() {
                     <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#94A3B8]">
                       {item.label}
                     </p>
+
                     <p className="mt-1.5 text-sm font-medium text-[#0A0D2C]">
                       {item.value}
                     </p>
@@ -90,6 +128,7 @@ export default function ContactUs() {
                 <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
                   Fastest response
                 </p>
+
                 <p className="mt-1.5 text-sm font-semibold">
                   Chat with us on WhatsApp
                 </p>
@@ -106,6 +145,7 @@ export default function ContactUs() {
             </a>
           </div>
 
+          {/* Right side — Jotform */}
           <div className="lg:col-span-7">
             <Reveal delay={0.1}>
               <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-[#0C1030]">
